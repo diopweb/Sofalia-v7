@@ -18,7 +18,7 @@ import {
     orderBy,
     runTransaction,
 } from 'firebase/firestore';
-import { Printer, Plus, Trash2, Edit, X, Users, Package, ShoppingCart, DollarSign, BarChart2, Tag, Image as ImageIcon, CreditCard, CheckCircle, ListChecks, Settings, AlertCircle, FileText, ArrowLeft, Filter, Share2, List, LayoutGrid, MinusCircle, PlusCircle, Search, Archive, ChevronDown } from 'lucide-react';
+import { Printer, Plus, Trash2, Edit, X, Users, Package, ShoppingCart, DollarSign, BarChart2, Tag, Image as ImageIcon, CreditCard, CheckCircle, ListChecks, Settings, AlertCircle, FileText, ArrowLeft, Filter, Share2, List, LayoutGrid, MinusCircle, PlusCircle, Search, Archive, ChevronDown, Phone, MessageSquare } from 'lucide-react';
 
 // --- Translations ---
 const translations = {
@@ -38,6 +38,27 @@ const translations = {
         address: "Adresse", docCustomization: "Personnalisation des Documents", salesInvoicePrefix: "Préfixe Facture de Vente",
         refundInvoicePrefix: "Préfixe Facture de Remboursement", depositReceiptPrefix: "Préfixe Reçu d'Acompte", invoiceFooterMessage: "Message de Pied de Facture",
         save: "Enregistrer", language: "Langue", francais: "Français", english: "Anglais",
+        editProduct: "Modifier Produit", productName: "Nom du produit", productType: "Type de Produit", standardItem: "Article Standard (Simple ou avec Gammes)",
+        pack: "Pack", quantity: "Quantité", reorderThreshold: "Seuil de réappro.", salePrice: "Prix de Vente", basePrice: "Prix de Base",
+        productVariantsOptional: "Gammes du Produit (Optionnel)", packSalePrice: "Prix de Vente du Pack", packComposition: "Composition du Pack",
+        mainCategory: "Catégorie Principale", select: "Sélectionner...", subCategory: "Sous-catégorie", description: "Description",
+        cancel: "Annuler", update: "Mettre à jour", add: "Ajouter", variantName: "Nom Gamme", priceMod: "Modif. Prix",
+        reorderThresh: "Seuil Réappro.", product: "Produit", chooseProduct: "Choisir un produit...", variant: "Gamme",
+        chooseVariant: "Choisir une gamme...", editCategory: "Modifier Catégorie", addCategoryTitle: "Ajouter Catégorie",
+        parentCategoryOptional: "Catégorie Parente (Optionnel)", noneMain: "Aucune (Principale)", editCustomer: "Modifier Client",
+        addCustomerTitle: "Ajouter Client", fullName: "Nom complet", nicknameOptional: "Surnom (Optionnel)", addressOptional: "Adresse (Optionnel)",
+        email: "Email", addDeposit: "Ajouter un dépôt", for: "pour", depositAmount: "Montant du dépôt (F CFA)",
+        salesCart: "Panier de Vente", items: "Articles", cartEmpty: "Le panier est vide.", summary: "Résumé",
+        discount: "Remise", applyVAT: "Appliquer la TVA (18%)", paymentType: "Type de paiement", subtotal: "Sous-total",
+        continueShopping: "Poursuivre les achats", validateSale: "Valider la Vente", paymentReceipt: "REÇU DE PAIEMENT",
+        receivedFrom: "Reçu de :", originalInvoice: "Facture d'origine :", amountPaid: "Montant Payé:", paymentMethod: "Méthode de paiement:",
+        remainingBalanceDebt: "Solde Restant sur la Créance:", close: "Fermer", share: "Partager", print: "Imprimer",
+        depositReceipt: "REÇU D'ACOMPTE", depositAmountLabel: "Montant de l'acompte:", newDepositBalance: "Nouveau solde d'acompte:",
+        invoice: "FACTURE", billedTo: "Facturé à :", payment: "Paiement :", qty: "Qté", pu: "P.U.",
+        amountBeforeTax: "Montant HT:", vat18: "TVA (18%):", thankYou: "Merci pour votre achat !",
+        makeAPayment: "Faire un Paiement", remainingBalance: "Solde Restant:", available: "Disponible:", savePayment: "Enregistrer Paiement",
+        selectProducts: "Sélectionner des produits", search: "Rechercher...", viewCart: "Voir le Panier",
+        manageStock: "Gérer le stock", addToCart: "Ajouter au panier", appeler: "Appeler", sms: "SMS",
     },
     en: {
         dashboard: "Dashboard", products: "Products", categories: "Categories", customers: "Customers", sales: "Sales",
@@ -55,6 +76,27 @@ const translations = {
         address: "Address", docCustomization: "Document Customization", salesInvoicePrefix: "Sales Invoice Prefix",
         refundInvoicePrefix: "Refund Invoice Prefix", depositReceiptPrefix: "Deposit Receipt Prefix", invoiceFooterMessage: "Invoice Footer Message",
         save: "Save", language: "Language", francais: "French", english: "English",
+        editProduct: "Edit Product", productName: "Product Name", productType: "Product Type", standardItem: "Standard Item (Simple or with Variants)",
+        pack: "Pack", quantity: "Quantity", reorderThreshold: "Reorder Threshold", salePrice: "Sale Price", basePrice: "Base Price",
+        productVariantsOptional: "Product Variants (Optional)", packSalePrice: "Pack Sale Price", packComposition: "Pack Composition",
+        mainCategory: "Main Category", select: "Select...", subCategory: "Sub-category", description: "Description",
+        cancel: "Cancel", update: "Update", add: "Add", variantName: "Variant Name", priceMod: "Price Mod.",
+        reorderThresh: "Reorder Thresh.", product: "Product", chooseProduct: "Choose a product...", variant: "Variant",
+        chooseVariant: "Choose a variant...", editCategory: "Edit Category", addCategoryTitle: "Add Category",
+        parentCategoryOptional: "Parent Category (Optional)", noneMain: "None (Main)", editCustomer: "Edit Customer",
+        addCustomerTitle: "Add Customer", fullName: "Full Name", nicknameOptional: "Nickname (Optional)", addressOptional: "Address (Optional)",
+        email: "Email", addDeposit: "Add a deposit", for: "for", depositAmount: "Deposit Amount (F CFA)",
+        salesCart: "Sales Cart", items: "Items", cartEmpty: "The cart is empty.", summary: "Summary",
+        discount: "Discount", applyVAT: "Apply VAT (18%)", paymentType: "Payment Type", subtotal: "Subtotal",
+        continueShopping: "Continue Shopping", validateSale: "Validate Sale", paymentReceipt: "PAYMENT RECEIPT",
+        receivedFrom: "Received from:", originalInvoice: "Original Invoice:", amountPaid: "Amount Paid:", paymentMethod: "Payment Method:",
+        remainingBalanceDebt: "Remaining Balance on Debt:", close: "Close", share: "Share", print: "Print",
+        depositReceipt: "DEPOSIT RECEIPT", depositAmountLabel: "Deposit amount:", newDepositBalance: "New deposit balance:",
+        invoice: "INVOICE", billedTo: "Billed to:", payment: "Payment:", qty: "Qty", pu: "P.U.",
+        amountBeforeTax: "Amount before tax:", vat18: "VAT (18%):", thankYou: "Thank you for your purchase!",
+        makeAPayment: "Make a Payment", remainingBalance: "Remaining Balance:", available: "Available:", savePayment: "Save Payment",
+        selectProducts: "Select products", search: "Search...", viewCart: "View Cart",
+        manageStock: "Manage Stock", addToCart: "Add to Cart", appeler: "Call", sms: "SMS",
     }
 };
 
@@ -606,18 +648,18 @@ export default function App() {
         if (!modalState.isOpen) return null;
         const { type, item } = modalState;
         switch (type) {
-            case 'productSelection': return <ProductSelectionModal products={products} onAddToCart={addToCart} openModal={openModal} onClose={closeModal} onProceedToCart={() => openModal('addSale', item, '7xl')} cart={cart}/>
-            case 'productDetails': return <ProductDetailModal product={item} onAddToCart={addToCart} onClose={closeModal} openModal={openModal} />;
-            case 'addProduct': case 'editProduct': return <ProductForm onSubmit={type === 'addProduct' ? (d, cb) => handleAddItem('products', d, cb) : (d) => handleEditItem('products', item.id, d)} initialData={item} categories={categories} products={products} onClose={closeModal} />;
-            case 'addCategory': case 'editCategory': return <CategoryForm onSubmit={type === 'addCategory' ? (d) => handleAddItem('categories', d) : (d) => handleEditItem('categories', item.id, d)} initialData={item} categories={categories} onClose={closeModal} />;
-            case 'addCustomer': return <CustomerForm onSubmit={(d, cb) => handleAddItem('customers', d, cb)} initialData={item} onClose={closeModal} onSuccess={item?.onSuccess} />;
-            case 'editCustomer': return <CustomerForm onSubmit={(d) => handleEditItem('customers', item.id, d)} initialData={item} onClose={closeModal}/>
-            case 'addSale': return <SaleForm onSubmit={handleAddSale} customers={customers} onClose={closeModal} cart={cart} setCart={setCart} preselectedCustomerId={item?.preselectedCustomerId} openModal={openModal} showAlert={showAlert} />;
-            case 'makePayment': return <PaymentForm onSubmit={(amount, pType) => handleMakePayment(item, amount, pType)} sale={item} customers={customers} onClose={closeModal} />;
-            case 'addDeposit': return <DepositForm customer={item} onSubmit={(amount) => handleAddDeposit(item.id, amount)} onClose={closeModal} />;
-            case 'showInvoice': return <Invoice sale={item} products={products} companyProfile={companyProfile} onClose={closeModal} showAlert={showAlert} />;
-            case 'showPaymentReceipt': return <PaymentReceipt receiptData={item} onClose={closeModal} showAlert={showAlert} />;
-            case 'showDepositReceipt': return <DepositReceipt receiptData={item} onClose={closeModal} showAlert={showAlert} />;
+            case 'productSelection': return <ProductSelectionModal products={products} onAddToCart={addToCart} openModal={openModal} onClose={closeModal} onProceedToCart={() => openModal('addSale', item, '7xl')} cart={cart} t={t} language={language} />;
+            case 'productDetails': return <ProductDetailModal product={item} onAddToCart={addToCart} onClose={closeModal} openModal={openModal} t={t} language={language} />;
+            case 'addProduct': case 'editProduct': return <ProductForm onSubmit={type === 'addProduct' ? (d, cb) => handleAddItem('products', d, cb) : (d) => handleEditItem('products', item.id, d)} initialData={item} categories={categories} products={products} onClose={closeModal} t={t} language={language} />;
+            case 'addCategory': case 'editCategory': return <CategoryForm onSubmit={type === 'addCategory' ? (d) => handleAddItem('categories', d) : (d) => handleEditItem('categories', item.id, d)} initialData={item} categories={categories} onClose={closeModal} t={t} />;
+            case 'addCustomer': return <CustomerForm onSubmit={(d, cb) => handleAddItem('customers', d, cb)} initialData={item} onClose={closeModal} onSuccess={item?.onSuccess} t={t} />;
+            case 'editCustomer': return <CustomerForm onSubmit={(d) => handleEditItem('customers', item.id, d)} initialData={item} onClose={closeModal} t={t} />
+            case 'addSale': return <SaleForm onSubmit={handleAddSale} customers={customers} onClose={closeModal} cart={cart} setCart={setCart} preselectedCustomerId={item?.preselectedCustomerId} openModal={openModal} showAlert={showAlert} t={t} language={language} />;
+            case 'makePayment': return <PaymentForm onSubmit={(amount, pType) => handleMakePayment(item, amount, pType)} sale={item} customers={customers} onClose={closeModal} t={t} language={language} />;
+            case 'addDeposit': return <DepositForm customer={item} onSubmit={(amount) => handleAddDeposit(item.id, amount)} onClose={closeModal} t={t} />;
+            case 'showInvoice': return <Invoice sale={item} products={products} companyProfile={companyProfile} onClose={closeModal} showAlert={showAlert} t={t} language={language} />;
+            case 'showPaymentReceipt': return <PaymentReceipt receiptData={item} onClose={closeModal} showAlert={showAlert} t={t} language={language} />;
+            case 'showDepositReceipt': return <DepositReceipt receiptData={item} onClose={closeModal} showAlert={showAlert} t={t} language={language} />;
             default: return null;
         }
     };
@@ -999,10 +1041,12 @@ const CustomerDetailsView = React.memo(({ customerId, customers, db, appId, navi
     }, [customerId, db, appId]);
     
     if (!customer) return <div>Customer not found. <button className="text-blue-500 underline" onClick={() => navigate('customers')}>{t('backToList')}</button></div>;
+
+    const sanitizedPhone = customer.phone ? customer.phone.replace(/[\s+()-]/g, '') : '';
     
     return (
         <div className="bg-white p-8 rounded-2xl shadow-md">
-            <div className="flex justify-between items-start mb-4">
+            <div className="flex justify-between items-start mb-4 flex-wrap gap-4">
                 <div>
                     <button onClick={() => navigate('customers')} className="flex items-center text-blue-600 hover:underline mb-4"><ArrowLeft size={18} className="mr-2" /> {t('backToList')}</button>
                     <h2 className="text-3xl font-bold text-gray-800">{customer.name} {customer.nickname && `(${customer.nickname})`}</h2>
@@ -1013,8 +1057,23 @@ const CustomerDetailsView = React.memo(({ customerId, customers, db, appId, navi
                     <ShoppingCart size={20} className="mr-2"/> {t('newSale')}
                 </button>
             </div>
+
+            {customer.phone && (
+                <div className="flex flex-wrap gap-3 mb-6 border-t pt-6 mt-4">
+                    <a href={`tel:${customer.phone}`} className="flex items-center gap-2 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition-colors text-sm">
+                        <Phone size={16} /> {t('appeler')}
+                    </a>
+                    <a href={`sms:${customer.phone}`} className="flex items-center gap-2 bg-cyan-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-cyan-600 transition-colors text-sm">
+                        <MessageSquare size={16} /> {t('sms')}
+                    </a>
+                    <a href={`https://wa.me/${sanitizedPhone}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition-colors text-sm">
+                         <MessageSquare size={16} /> WhatsApp
+                    </a>
+                </div>
+            )}
+
             <div className="p-4 bg-green-50 border border-green-200 rounded-lg mb-6">
-                <p className="text-lg font-bold text-green-700">Available deposit: {formatCurrency(customer.balance || 0, language)}</p>
+                <p className="text-lg font-bold text-green-700">Acompte disponible: {formatCurrency(customer.balance || 0, language)}</p>
             </div>
             <h3 className="text-xl font-bold text-gray-700 mb-4">{t('purchaseHistory')}</h3>
             <div className="overflow-x-auto">{loading ? <p>{t('loading')}...</p> : <table className="w-full text-left">
@@ -1148,7 +1207,7 @@ const SettingsView = React.memo(({ companyProfile, handleSaveProfile, t }) => {
 
 // --- FORMS AND MODALS ---
 
-const ProductForm = React.memo(({ onSubmit, initialData, categories, products, onClose }) => {
+const ProductForm = React.memo(({ onSubmit, initialData, categories, products, onClose, t, language }) => {
     const [name, setName] = useState(initialData?.name || '');
     const [description, setDescription] = useState(initialData?.description || '');
     const [price, setPrice] = useState(initialData?.price || '');
@@ -1231,38 +1290,38 @@ const ProductForm = React.memo(({ onSubmit, initialData, categories, products, o
     
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
-            <h3 className="text-2xl font-bold text-center">{initialData ? 'Edit Product' : 'Add Product'}</h3>
+            <h3 className="text-2xl font-bold text-center">{initialData ? t('editProduct') : t('addProduct')}</h3>
             <div className="flex flex-col items-center space-y-2">
-                 <label className="w-full text-sm font-medium">Photo</label>
+                 <label className="w-full text-sm font-medium">{t('photo')}</label>
                  <div className="w-32 h-32 rounded-lg bg-gray-100 flex items-center justify-center border-2 border-dashed">
                      {photoURL ? <img src={photoURL} alt="Preview" className="w-full h-full object-cover rounded-lg"/> : <ImageIcon className="text-gray-400" size={40}/>}
                  </div>
                  <input type="file" accept="image/*" onChange={handlePhotoChange} className="text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"/>
              </div>
-            <FormField label="Product Name" type="text" value={name} onChange={e => setName(e.target.value)} required />
-            <FormSelect label="Product Type" value={productType} onChange={e => setProductType(e.target.value)}>
-                <option value={PRODUCT_TYPES.SIMPLE}>Standard Item (Simple or with Variants)</option>
-                <option value={PRODUCT_TYPES.PACK}>Pack</option>
+            <FormField label={t('productName')} type="text" value={name} onChange={e => setName(e.target.value)} required />
+            <FormSelect label={t('productType')} value={productType} onChange={e => setProductType(e.target.value)}>
+                <option value={PRODUCT_TYPES.SIMPLE}>{t('standardItem')}</option>
+                <option value={PRODUCT_TYPES.PACK}>{t('pack')}</option>
             </FormSelect>
              
             {productType === PRODUCT_TYPES.SIMPLE && (
                 <>
                     {variants.length === 0 ? (
                          <>
-                            <FormField label="Quantity" type="number" value={quantity} onChange={e => setQuantity(e.target.value)} required min="0" />
-                            <FormField label="Reorder Threshold" type="number" value={reorderThreshold} onChange={e => setReorderThreshold(e.target.value)} required min="0" />
-                            <FormField label="Sale Price" type="number" value={price} onChange={e => setPrice(e.target.value)} required min="0" />
+                            <FormField label={t('quantity')} type="number" value={quantity} onChange={e => setQuantity(e.target.value)} required min="0" />
+                            <FormField label={t('reorderThreshold')} type="number" value={reorderThreshold} onChange={e => setReorderThreshold(e.target.value)} required min="0" />
+                            <FormField label={t('salePrice')} type="number" value={price} onChange={e => setPrice(e.target.value)} required min="0" />
                          </>
                     ) : (
-                         <FormField label="Base Price" type="number" value={basePrice} onChange={e => setBasePrice(e.target.value)} required min="0" />
+                         <FormField label={t('basePrice')} type="number" value={basePrice} onChange={e => setBasePrice(e.target.value)} required min="0" />
                     )}
                     <div className="p-4 border rounded-lg space-y-4 bg-gray-50">
-                        <h4 className="font-semibold">Product Variants (Optional)</h4>
-                        <VariantForm onAddVariant={handleAddVariant} />
+                        <h4 className="font-semibold">{t('productVariantsOptional')}</h4>
+                        <VariantForm onAddVariant={handleAddVariant} t={t} />
                          {variants.length > 0 && <ul className="space-y-2">
                             {variants.map(v => (
                                 <li key={v.id} className="flex justify-between items-center bg-white p-2 rounded-md text-sm">
-                                    <span>{v.name} (Price Mod: {formatCurrency(v.priceModifier)}, Stock: {v.quantity})</span>
+                                    <span>{v.name} ({t('priceMod')}: {formatCurrency(v.priceModifier, language)}, {t('stock')}: {v.quantity})</span>
                                     <button type="button" onClick={() => handleRemoveVariant(v.id)} className="text-red-500"><Trash2 size={16}/></button>
                                 </li>
                             ))}
@@ -1272,10 +1331,10 @@ const ProductForm = React.memo(({ onSubmit, initialData, categories, products, o
             )}
             
              {productType === PRODUCT_TYPES.PACK && (<>
-                <FormField label="Pack Sale Price" type="number" value={price} onChange={e => setPrice(e.target.value)} required min="0" />
+                <FormField label={t('packSalePrice')} type="number" value={price} onChange={e => setPrice(e.target.value)} required min="0" />
                 <div className="p-4 border rounded-lg space-y-4 bg-gray-50">
-                    <h4 className="font-semibold">Pack Composition</h4>
-                    <PackItemSelector products={products.filter(p => p.type === PRODUCT_TYPES.SIMPLE || p.type === PRODUCT_TYPES.VARIANT)} onAddItem={handleAddPackItem} />
+                    <h4 className="font-semibold">{t('packComposition')}</h4>
+                    <PackItemSelector products={products.filter(p => p.type === PRODUCT_TYPES.SIMPLE || p.type === PRODUCT_TYPES.VARIANT)} onAddItem={handleAddPackItem} t={t} />
                     <ul className="space-y-2">
                         {packItems.map((item) => (
                             <li key={item.packItemId} className="flex justify-between items-center bg-white p-2 rounded-md">
@@ -1287,24 +1346,24 @@ const ProductForm = React.memo(({ onSubmit, initialData, categories, products, o
                 </div>
             </>)}
 
-            <FormSelect label="Main Category" value={parentCategoryId} onChange={e => { setParentCategoryId(e.target.value); setSubCategoryId(''); }} disabled={productType === PRODUCT_TYPES.PACK}>
-                <option value="">Select...</option>
+            <FormSelect label={t('mainCategory')} value={parentCategoryId} onChange={e => { setParentCategoryId(e.target.value); setSubCategoryId(''); }} disabled={productType === PRODUCT_TYPES.PACK}>
+                <option value="">{t('select')}...</option>
                 {parentCategories.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
             </FormSelect>
-             <FormSelect label="Sub-category" value={subCategoryId} onChange={e => setSubCategoryId(e.target.value)} disabled={!parentCategoryId || subCategories.length === 0 || productType === PRODUCT_TYPES.PACK}>
-                <option value="">Select...</option>
+             <FormSelect label={t('subCategory')} value={subCategoryId} onChange={e => setSubCategoryId(e.target.value)} disabled={!parentCategoryId || subCategories.length === 0 || productType === PRODUCT_TYPES.PACK}>
+                <option value="">{t('select')}...</option>
                 {subCategories.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
             </FormSelect>
-            <FormField label="Description" type="text" value={description} onChange={e => setDescription(e.target.value)} />
+            <FormField label={t('description')} type="text" value={description} onChange={e => setDescription(e.target.value)} />
             <div className="flex justify-end space-x-4 pt-4">
-                <button type="button" onClick={onClose} className="px-6 py-2 rounded-lg bg-gray-200">Cancel</button>
-                <button type="submit" className="px-6 py-2 rounded-lg text-white bg-blue-500 font-semibold">{initialData ? 'Update' : 'Add'}</button>
+                <button type="button" onClick={onClose} className="px-6 py-2 rounded-lg bg-gray-200">{t('cancel')}</button>
+                <button type="submit" className="px-6 py-2 rounded-lg text-white bg-blue-500 font-semibold">{initialData ? t('update') : t('add')}</button>
             </div>
         </form>
     );
 });
 
-const VariantForm = React.memo(({ onAddVariant }) => {
+const VariantForm = React.memo(({ onAddVariant, t }) => {
     const [name, setName] = useState('');
     const [priceModifier, setPriceModifier] = useState(0);
     const [quantity, setQuantity] = useState('');
@@ -1318,16 +1377,16 @@ const VariantForm = React.memo(({ onAddVariant }) => {
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-2 items-end">
-            <FormField label="Variant Name" value={name} onChange={e => setName(e.target.value)} placeholder="Ex: Red, XL..."/>
-            <FormField label="Price Mod." type="number" value={priceModifier} onChange={e => setPriceModifier(e.target.value)} placeholder="Ex: 500 or -200" />
-            <FormField label="Stock" type="number" value={quantity} onChange={e => setQuantity(e.target.value)} placeholder="Quantity"/>
-            <FormField label="Reorder Thresh." type="number" value={reorderThreshold} onChange={e => setReorderThreshold(e.target.value)} placeholder="Threshold"/>
+            <FormField label={t('variantName')} value={name} onChange={e => setName(e.target.value)} placeholder="Ex: Rouge, XL..."/>
+            <FormField label={t('priceMod')} type="number" value={priceModifier} onChange={e => setPriceModifier(e.target.value)} placeholder="Ex: 500 ou -200" />
+            <FormField label={t('stock')} type="number" value={quantity} onChange={e => setQuantity(e.target.value)} placeholder={t('quantity')}/>
+            <FormField label={t('reorderThresh')} type="number" value={reorderThreshold} onChange={e => setReorderThreshold(e.target.value)} placeholder={t('threshold')}/>
             <button type="button" onClick={handleAdd} className="px-4 py-2 bg-blue-500 text-white rounded-lg h-10"><Plus size={20}/></button>
         </div>
     )
 });
 
-const PackItemSelector = React.memo(({ products, onAddItem }) => {
+const PackItemSelector = React.memo(({ products, onAddItem, t }) => {
     const [selectedProductId, setSelectedProductId] = useState('');
     const [selectedVariantId, setSelectedVariantId] = useState('');
     const [quantity, setQuantity] = useState(1);
@@ -1373,25 +1432,25 @@ const PackItemSelector = React.memo(({ products, onAddItem }) => {
     return (
         <div className="flex flex-wrap items-end gap-2">
             <div className="flex-grow min-w-[150px]">
-                 <label className="text-sm">Product</label>
+                 <label className="text-sm">{t('product')}</label>
                  <select value={selectedProductId} onChange={e => setSelectedProductId(e.target.value)} className="w-full px-3 py-2 border rounded-lg bg-white">
-                    <option value="">Choose a product...</option>
+                    <option value="">{t('chooseProduct')}</option>
                     {products.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
                  </select>
             </div>
             
             {selectedProduct && selectedProduct.type === PRODUCT_TYPES.VARIANT && (
                 <div className="flex-grow min-w-[150px]">
-                    <label className="text-sm">Variant</label>
+                    <label className="text-sm">{t('variant')}</label>
                     <select value={selectedVariantId} onChange={e => setSelectedVariantId(e.target.value)} className="w-full px-3 py-2 border rounded-lg bg-white">
-                        <option value="">Choose a variant...</option>
+                        <option value="">{t('chooseVariant')}</option>
                         {selectedProduct.variants.map(v => <option key={v.id} value={v.id}>{v.name} (Stock: {v.quantity})</option>)}
                     </select>
                 </div>
             )}
 
             <div className="w-24">
-                 <label className="text-sm">Quantity</label>
+                 <label className="text-sm">{t('quantity')}</label>
                  <input type="number" value={quantity} onChange={e => setQuantity(Number(e.target.value))} min="1" className="w-full px-3 py-2 border rounded-lg"/>
             </div>
             <button type="button" onClick={handleAdd} className="px-4 py-2 bg-blue-500 text-white rounded-lg h-10 self-end"><Plus size={20}/></button>
@@ -1399,7 +1458,7 @@ const PackItemSelector = React.memo(({ products, onAddItem }) => {
     )
 });
 
-const CategoryForm = React.memo(({ onSubmit, initialData, categories, onClose }) => {
+const CategoryForm = React.memo(({ onSubmit, initialData, categories, onClose, t }) => {
     const [name, setName] = useState(initialData?.name || '');
     const [parentId, setParentId] = useState(initialData?.parentId || '');
     const parentCategories = categories.filter(c => !c.parentId && c.id !== initialData?.id);
@@ -1407,21 +1466,21 @@ const CategoryForm = React.memo(({ onSubmit, initialData, categories, onClose })
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
-            <h3 className="text-2xl font-bold text-center">{initialData ? 'Edit' : 'Add'} Category</h3>
-            <FormField label="Name" type="text" value={name} onChange={e => setName(e.target.value)} required />
-            <FormSelect label="Parent Category (Optional)" value={parentId} onChange={e => setParentId(e.target.value)}>
-                <option value="">None (Main)</option>
+            <h3 className="text-2xl font-bold text-center">{initialData ? t('editCategory') : t('addCategoryTitle')}</h3>
+            <FormField label={t('name')} type="text" value={name} onChange={e => setName(e.target.value)} required />
+            <FormSelect label={t('parentCategoryOptional')} value={parentId} onChange={e => setParentId(e.target.value)}>
+                <option value="">{t('noneMain')}</option>
                 {parentCategories.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
             </FormSelect>
              <div className="flex justify-end space-x-4 pt-4">
-                <button type="button" onClick={onClose} className="px-6 py-2 rounded-lg bg-gray-200">Cancel</button>
-                <button type="submit" className="px-6 py-2 rounded-lg text-white bg-blue-500 font-semibold">{initialData ? 'Update' : 'Add'}</button>
+                <button type="button" onClick={onClose} className="px-6 py-2 rounded-lg bg-gray-200">{t('cancel')}</button>
+                <button type="submit" className="px-6 py-2 rounded-lg text-white bg-blue-500 font-semibold">{initialData ? t('update') : t('add')}</button>
             </div>
         </form>
     );
 });
 
-const CustomerForm = React.memo(({ onSubmit, initialData, onClose, onSuccess }) => {
+const CustomerForm = React.memo(({ onSubmit, initialData, onClose, onSuccess, t }) => {
     const [name, setName] = useState(initialData?.name || '');
     const [nickname, setNickname] = useState(initialData?.nickname || '');
     const [address, setAddress] = useState(initialData?.address || '');
@@ -1438,37 +1497,37 @@ const CustomerForm = React.memo(({ onSubmit, initialData, onClose, onSuccess }) 
     };
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
-            <h3 className="text-2xl font-bold text-center">{initialData ? 'Edit Customer' : 'Add Customer'}</h3>
-            <FormField label="Full Name" type="text" value={name} onChange={e => setName(e.target.value)} required />
-            <FormField label="Nickname (Optional)" type="text" value={nickname} onChange={e => setNickname(e.target.value)} />
-            <FormField label="Address (Optional)" type="text" value={address} onChange={e => setAddress(e.target.value)} />
-            <FormField label="Email" type="email" value={email} onChange={e => setEmail(e.target.value)} />
-            <FormField label="Phone" type="tel" value={phone} onChange={e => setPhone(e.target.value)} />
+            <h3 className="text-2xl font-bold text-center">{initialData ? t('editCustomer') : t('addCustomerTitle')}</h3>
+            <FormField label={t('fullName')} type="text" value={name} onChange={e => setName(e.target.value)} required />
+            <FormField label={t('nicknameOptional')} type="text" value={nickname} onChange={e => setNickname(e.target.value)} />
+            <FormField label={t('addressOptional')} type="text" value={address} onChange={e => setAddress(e.target.value)} />
+            <FormField label={t('email')} type="email" value={email} onChange={e => setEmail(e.target.value)} />
+            <FormField label={t('phone')} type="tel" value={phone} onChange={e => setPhone(e.target.value)} />
             <div className="flex justify-end space-x-4 pt-4">
-                <button type="button" onClick={onClose} className="px-6 py-2 rounded-lg bg-gray-200">Cancel</button>
-                <button type="submit" className="px-6 py-2 rounded-lg text-white bg-blue-500 font-semibold">{initialData ? 'Update' : 'Add'}</button>
+                <button type="button" onClick={onClose} className="px-6 py-2 rounded-lg bg-gray-200">{t('cancel')}</button>
+                <button type="submit" className="px-6 py-2 rounded-lg text-white bg-blue-500 font-semibold">{initialData ? t('update') : t('add')}</button>
             </div>
         </form>
     );
 });
 
-const DepositForm = React.memo(({ customer, onSubmit, onClose }) => {
+const DepositForm = React.memo(({ customer, onSubmit, onClose, t }) => {
     const [amount, setAmount] = useState('');
     const handleSubmit = (e) => { e.preventDefault(); onSubmit(amount); };
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
-            <h3 className="text-2xl font-bold text-center">Add a deposit</h3>
-            <p className="text-center">for {customer.name}</p>
-            <FormField label="Deposit Amount (F CFA)" type="number" value={amount} onChange={e => setAmount(e.target.value)} required min="1" />
+            <h3 className="text-2xl font-bold text-center">{t('addDeposit')}</h3>
+            <p className="text-center">{t('for')} {customer.name}</p>
+            <FormField label={t('depositAmount')} type="number" value={amount} onChange={e => setAmount(e.target.value)} required min="1" />
             <div className="flex justify-end space-x-4 pt-4">
-                <button type="button" onClick={onClose} className="px-6 py-2 rounded-lg bg-gray-200">Cancel</button>
-                <button type="submit" className="px-6 py-2 rounded-lg text-white bg-green-500 font-semibold">Save</button>
+                <button type="button" onClick={onClose} className="px-6 py-2 rounded-lg bg-gray-200">{t('cancel')}</button>
+                <button type="submit" className="px-6 py-2 rounded-lg text-white bg-green-500 font-semibold">{t('save')}</button>
             </div>
         </form>
     );
 });
 
-const SaleForm = React.memo(({ onSubmit, customers, onClose, cart, setCart, preselectedCustomerId, openModal, showAlert }) => {
+const SaleForm = React.memo(({ onSubmit, customers, onClose, cart, setCart, preselectedCustomerId, openModal, showAlert, t, language }) => {
     const [customerId, setCustomerId] = useState(preselectedCustomerId || '');
     const [paymentType, setPaymentType] = useState(PAYMENT_TYPES[0]);
     const [discountType, setDiscountType] = useState('percentage');
@@ -1486,8 +1545,8 @@ const SaleForm = React.memo(({ onSubmit, customers, onClose, cart, setCart, pres
     
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (cart.length === 0) { showAlert("The cart is empty."); return; }
-        if (!customerId) { showAlert("Please select a customer."); return; }
+        if (cart.length === 0) { showAlert(t('cartEmpty')); return; }
+        if (!customerId) { showAlert(t('selectCustomer')); return; }
         onSubmit({ customerId, paymentType, items: cart, totalPrice: finalTotal, discountAmount, vatAmount });
     };
 
@@ -1505,39 +1564,39 @@ const SaleForm = React.memo(({ onSubmit, customers, onClose, cart, setCart, pres
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
-            <h3 className="text-2xl font-bold text-center text-gray-800">Sales Cart</h3>
+            <h3 className="text-2xl font-bold text-center text-gray-800">{t('salesCart')}</h3>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2 space-y-4">
-                    <h4 className="font-bold text-lg">Items ({cart.length})</h4>
+                    <h4 className="font-bold text-lg">{t('items')} ({cart.length})</h4>
                     <div className="max-h-96 overflow-y-auto space-y-3 pr-2">
                     {cart.length > 0 ? cart.map(item => (
                         <div key={item.cartId} className="flex items-center gap-4 bg-gray-50 p-3 rounded-lg">
                             <img src={item.photoURL || 'https://placehold.co/60x60'} alt={item.name} className="w-16 h-16 rounded-md object-cover"/>
                             <div className="flex-grow">
                                 <p className="font-semibold">{item.name}</p>
-                                <p className="text-sm text-gray-600">{formatCurrency(item.price)}</p>
+                                <p className="text-sm text-gray-600">{formatCurrency(item.price, language)}</p>
                             </div>
                             <div className="flex items-center gap-2">
                                 <button type="button" onClick={() => updateCartItemQuantity(item.cartId, item.quantity - 1)} className="text-red-500"><MinusCircle size={20}/></button>
                                 <input type="number" value={item.quantity} onChange={(e) => updateCartItemQuantity(item.cartId, parseInt(e.target.value, 10) || 0)} className="w-16 text-center border rounded-md p-1"/>
                                 <button type="button" onClick={() => updateCartItemQuantity(item.cartId, item.quantity + 1)} className="text-green-500"><PlusCircle size={20}/></button>
                             </div>
-                            <p className="w-24 text-right font-semibold">{formatCurrency(item.price * item.quantity)}</p>
+                            <p className="w-24 text-right font-semibold">{formatCurrency(item.price * item.quantity, language)}</p>
                         </div>
-                    )) : <p className="text-center text-gray-500 py-8">The cart is empty.</p>}
+                    )) : <p className="text-center text-gray-500 py-8">{t('cartEmpty')}</p>}
                     </div>
                 </div>
                 <div className="bg-gray-50 p-6 rounded-2xl space-y-4">
-                    <h4 className="font-bold text-lg">Summary</h4>
+                    <h4 className="font-bold text-lg">{t('summary')}</h4>
                      <div className="flex items-end gap-2">
-                         <div className="flex-grow"><FormSelect label="Customer" value={customerId} onChange={e => setCustomerId(e.target.value)} required>
-                             <option value="" disabled>Select a customer</option>
+                         <div className="flex-grow"><FormSelect label={t('customers')} value={customerId} onChange={e => setCustomerId(e.target.value)} required>
+                             <option value="" disabled>{t('selectCustomer')}</option>
                              {customers.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                          </FormSelect></div>
                          <button type="button" onClick={handleAddNewCustomer} className="p-2 bg-blue-500 text-white rounded-lg"><Plus size={20}/></button>
                        </div>
                      <div>
-                        <label className="block text-sm font-medium">Discount</label>
+                        <label className="block text-sm font-medium">{t('discount')}</label>
                         <div className="flex items-center">
                             <select value={discountType} onChange={e => setDiscountType(e.target.value)} className="w-1/3 px-3 py-2 border rounded-l-lg bg-white">
                                 <option value="percentage">%</option><option value="fixed">F CFA</option>
@@ -1546,31 +1605,31 @@ const SaleForm = React.memo(({ onSubmit, customers, onClose, cart, setCart, pres
                         </div>
                     </div>
                     <div className="flex items-center"><input type="checkbox" id="vat-checkbox" checked={applyVAT} onChange={e => setApplyVAT(e.target.checked)} className="h-4 w-4 rounded"/>
-                        <label htmlFor="vat-checkbox" className="ml-2 text-sm">Apply VAT (18%)</label>
+                        <label htmlFor="vat-checkbox" className="ml-2 text-sm">{t('applyVAT')}</label>
                     </div>
-                    <FormSelect label="Payment Type" value={paymentType} onChange={e => setPaymentType(e.target.value)} required>
+                    <FormSelect label={t('paymentType')} value={paymentType} onChange={e => setPaymentType(e.target.value)} required>
                         {PAYMENT_TYPES.map(type => {
                             if(type === 'Acompte Client' && (!selectedCustomer || (selectedCustomer.balance || 0) <= 0)) return null;
-                            return <option key={type} value={type}>{type} {type === 'Acompte Client' && `(${formatCurrency(selectedCustomer?.balance || 0)})`}</option>
+                            return <option key={type} value={type}>{type} {type === 'Acompte Client' && `(${formatCurrency(selectedCustomer?.balance || 0, language)})`}</option>
                         })}
                     </FormSelect>
                     <div className="pt-4 space-y-2 text-right border-t">
-                        <p>Subtotal: {formatCurrency(subtotal)}</p>
-                        {discountAmount > 0 && <p className="text-red-500">Discount: -{formatCurrency(discountAmount)}</p>}
-                        {applyVAT && <p>VAT (18%): +{formatCurrency(vatAmount)}</p>}
-                        <p className="text-2xl font-bold text-green-600">Total: {formatCurrency(finalTotal)}</p>
+                        <p>{t('subtotal')}: {formatCurrency(subtotal, language)}</p>
+                        {discountAmount > 0 && <p className="text-red-500">{t('discount')}: -{formatCurrency(discountAmount, language)}</p>}
+                        {applyVAT && <p>{t('vat18')}: +{formatCurrency(vatAmount, language)}</p>}
+                        <p className="text-2xl font-bold text-green-600">{t('total')}: {formatCurrency(finalTotal, language)}</p>
                     </div>
                 </div>
             </div>
             <div className="flex justify-end space-x-4 pt-6">
-                 <button type="button" onClick={() => openModal('productSelection', { preselectedCustomerId: customerId }, '7xl')} className="px-6 py-3 rounded-lg bg-gray-200 hover:bg-gray-300">Continue Shopping</button>
-                <button type="submit" className="px-8 py-3 rounded-lg text-white bg-blue-500 font-semibold">Validate Sale</button>
+                 <button type="button" onClick={() => openModal('productSelection', { preselectedCustomerId: customerId }, '7xl')} className="px-6 py-3 rounded-lg bg-gray-200 hover:bg-gray-300">{t('continueShopping')}</button>
+                <button type="submit" className="px-8 py-3 rounded-lg text-white bg-blue-500 font-semibold">{t('validateSale')}</button>
             </div>
         </form>
     );
 });
 
-const PaymentReceipt = React.memo(({ receiptData, onClose, showAlert }) => {
+const PaymentReceipt = React.memo(({ receiptData, onClose, showAlert, t, language }) => {
     if (!receiptData) return null;
     const { customer, amount, paymentType, paymentDate, remainingBalance, companyProfile, saleId, invoiceId } = receiptData;
     const [canShare, setCanShare] = useState(false);
@@ -1625,36 +1684,36 @@ const PaymentReceipt = React.memo(({ receiptData, onClose, showAlert }) => {
         <div className="receipt-container">
              <div className="printable-area p-6">
                 <div className="flex justify-between items-start">
-                    <div><h1 className="text-2xl font-bold">PAYMENT RECEIPT</h1></div>
+                    <div><h1 className="text-2xl font-bold">{t('paymentReceipt')}</h1></div>
                     <div className="text-right"><h2 className="text-xl font-bold">{companyProfile.name}</h2></div>
                 </div>
                 <div className="border-b my-6"></div>
                 <div className="flex justify-between mb-6">
-                    <div><h3 className="font-bold">Received from:</h3><p>{customer.name}</p></div>
+                    <div><h3 className="font-bold">{t('receivedFrom')}</h3><p>{customer.name}</p></div>
                     <div className="text-right">
-                        <p><span className="font-bold">Date:</span> {formatDateTime(paymentDate)}</p>
-                        <p><span className="font-bold">Original Invoice:</span> {invoiceId}</p>
+                        <p><span className="font-bold">{t('date')}:</span> {formatDateTime(paymentDate, language)}</p>
+                        <p><span className="font-bold">{t('originalInvoice')}:</span> {invoiceId}</p>
                     </div>
                 </div>
                 <div className="p-4 bg-gray-50 rounded-lg">
-                    <p className="text-lg">Amount Paid: <span className="font-bold text-green-600">{formatCurrency(amount)}</span></p>
-                    <p>Payment Method: {paymentType}</p>
+                    <p className="text-lg">{t('amountPaid')}: <span className="font-bold text-green-600">{formatCurrency(amount, language)}</span></p>
+                    <p>{t('paymentMethod')}: {paymentType}</p>
                 </div>
                 <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-                    <p className="text-lg">Remaining Balance on Debt: <span className="font-bold text-red-600">{formatCurrency(remainingBalance)}</span></p>
+                    <p className="text-lg">{t('remainingBalanceDebt')}: <span className="font-bold text-red-600">{formatCurrency(remainingBalance, language)}</span></p>
                 </div>
             </div>
             <div className="flex justify-end space-x-2 p-6 bg-gray-50 rounded-b-2xl no-print">
-                <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg bg-gray-200">Close</button>
-                {canShare && ( <button onClick={handleSharePDF} className="flex items-center px-4 py-2 rounded-lg text-white bg-blue-600 font-semibold"><Share2 size={18} className="mr-2" /> Share</button> )}
+                <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg bg-gray-200">{t('close')}</button>
+                {canShare && ( <button onClick={handleSharePDF} className="flex items-center px-4 py-2 rounded-lg text-white bg-blue-600 font-semibold"><Share2 size={18} className="mr-2" /> {t('share')}</button> )}
                 <button onClick={handleDownloadPDF} className="flex items-center px-4 py-2 rounded-lg text-white bg-green-600 font-semibold"><FileText size={18} className="mr-2" /> PDF</button>
-                <button onClick={handlePrint} className="flex items-center px-4 py-2 rounded-lg text-white bg-gray-500 font-semibold"><Printer size={18} className="mr-2" /> Print</button>
+                <button onClick={handlePrint} className="flex items-center px-4 py-2 rounded-lg text-white bg-gray-500 font-semibold"><Printer size={18} className="mr-2" /> {t('print')}</button>
             </div>
         </div>
     );
 });
 
-const DepositReceipt = React.memo(({ receiptData, onClose, showAlert }) => {
+const DepositReceipt = React.memo(({ receiptData, onClose, showAlert, t, language }) => {
     if (!receiptData) return null;
     const { customer, amount, depositDate, companyProfile, customerId } = receiptData;
     const [canShare, setCanShare] = useState(false);
@@ -1703,32 +1762,32 @@ const DepositReceipt = React.memo(({ receiptData, onClose, showAlert }) => {
         <div className="receipt-container">
              <div className="printable-area p-6">
                 <div className="flex justify-between items-start">
-                    <div><h1 className="text-2xl font-bold">DEPOSIT RECEIPT</h1><p className="text-gray-500 text-sm">{receiptId}</p></div>
+                    <div><h1 className="text-2xl font-bold">{t('depositReceipt')}</h1><p className="text-gray-500 text-sm">{receiptId}</p></div>
                     <div className="text-right"><h2 className="text-xl font-bold">{companyProfile.name}</h2></div>
                 </div>
                 <div className="border-b my-6"></div>
                 <div className="flex justify-between mb-6">
-                    <div><h3 className="font-bold">Received from:</h3><p>{customer.name}</p></div>
-                    <div className="text-right"><p><span className="font-bold">Date:</span> {formatDateTime(depositDate)}</p></div>
+                    <div><h3 className="font-bold">{t('receivedFrom')}</h3><p>{customer.name}</p></div>
+                    <div className="text-right"><p><span className="font-bold">{t('date')}:</span> {formatDateTime(depositDate, language)}</p></div>
                 </div>
                 <div className="p-4 bg-gray-50 rounded-lg">
-                    <p className="text-lg">Deposit amount: <span className="font-bold text-green-600">{formatCurrency(amount)}</span></p>
+                    <p className="text-lg">{t('depositAmountLabel')}: <span className="font-bold text-green-600">{formatCurrency(amount, language)}</span></p>
                 </div>
                  <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                    <p className="text-lg">New deposit balance: <span className="font-bold text-blue-600">{formatCurrency(customer.balance || 0)}</span></p>
+                    <p className="text-lg">{t('newDepositBalance')}: <span className="font-bold text-blue-600">{formatCurrency(customer.balance || 0, language)}</span></p>
                 </div>
             </div>
             <div className="flex justify-end space-x-2 p-6 bg-gray-50 rounded-b-2xl no-print">
-                <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg bg-gray-200">Close</button>
-                {canShare && ( <button onClick={handleSharePDF} className="flex items-center px-4 py-2 rounded-lg text-white bg-blue-600 font-semibold"><Share2 size={18} className="mr-2" /> Share</button> )}
+                <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg bg-gray-200">{t('close')}</button>
+                {canShare && ( <button onClick={handleSharePDF} className="flex items-center px-4 py-2 rounded-lg text-white bg-blue-600 font-semibold"><Share2 size={18} className="mr-2" /> {t('share')}</button> )}
                 <button onClick={handleDownloadPDF} className="flex items-center px-4 py-2 rounded-lg text-white bg-green-600 font-semibold"><FileText size={18} className="mr-2" /> PDF</button>
-                <button onClick={handlePrint} className="flex items-center px-4 py-2 rounded-lg text-white bg-gray-500 font-semibold"><Printer size={18} className="mr-2" /> Print</button>
+                <button onClick={handlePrint} className="flex items-center px-4 py-2 rounded-lg text-white bg-gray-500 font-semibold"><Printer size={18} className="mr-2" /> {t('print')}</button>
             </div>
         </div>
     );
 });
 
-const Invoice = React.memo(({ sale, products, companyProfile, onClose, showAlert }) => {
+const Invoice = React.memo(({ sale, products, companyProfile, onClose, showAlert, t, language }) => {
     if (!sale) return null;
     const [canShare, setCanShare] = useState(false);
 
@@ -1773,7 +1832,7 @@ const Invoice = React.memo(({ sale, products, companyProfile, onClose, showAlert
         <div className="invoice-container">
             <div className="printable-area p-6">
                 <div className="flex justify-between items-start">
-                    <div><h1 className="text-2xl font-bold">INVOICE</h1><p className="text-gray-500 text-sm">{sale.invoiceId}</p></div>
+                    <div><h1 className="text-2xl font-bold">{t('invoice')}</h1><p className="text-gray-500 text-sm">{sale.invoiceId}</p></div>
                     <div className="text-right">
                         {companyProfile.logo && <img src={companyProfile.logo} alt={companyProfile.name} className="h-12 w-auto ml-auto mb-2" />}
                         <h2 className="text-xl font-bold">{companyProfile.name}</h2>
@@ -1782,11 +1841,11 @@ const Invoice = React.memo(({ sale, products, companyProfile, onClose, showAlert
                 </div>
                 <div className="border-b my-6"></div>
                 <div className="flex justify-between mb-6">
-                    <div><h3 className="font-bold">Billed to:</h3><p>{sale.customer?.name}</p></div>
-                    <div className="text-right"><p><span className="font-bold">Date:</span> {formatDateTime(sale.saleDate)}</p><p><span className="font-bold">Payment:</span> {sale.paymentType}</p></div>
+                    <div><h3 className="font-bold">{t('billedTo')}</h3><p>{sale.customer?.name}</p></div>
+                    <div className="text-right"><p><span className="font-bold">{t('date')}:</span> {formatDateTime(sale.saleDate, language)}</p><p><span className="font-bold">{t('payment')}:</span> {sale.paymentType}</p></div>
                 </div>
                 <table className="w-full text-left mb-8">
-                    <thead><tr className="bg-gray-100"><th className="p-3">Product</th><th className="p-3">Qty</th><th className="p-3 text-right">P.U.</th><th className="p-3 text-right">Total</th></tr></thead>
+                    <thead><tr className="bg-gray-100"><th className="p-3">{t('product')}</th><th className="p-3">{t('qty')}</th><th className="p-3 text-right">{t('pu')}</th><th className="p-3 text-right">{t('total')}</th></tr></thead>
                     <tbody>
                         {sale.items.flatMap((item, i) => {
                             const productDetails = products.find(p => p.id === item.productId);
@@ -1794,8 +1853,8 @@ const Invoice = React.memo(({ sale, products, companyProfile, onClose, showAlert
                                 <tr key={item.productId || i}>
                                     <td className="p-3 border-b">{item.productName}</td>
                                     <td className="p-3 border-b">{item.quantity}</td>
-                                    <td className="p-3 border-b text-right">{formatCurrency(item.unitPrice)}</td>
-                                    <td className="p-3 border-b text-right">{formatCurrency(item.subtotal)}</td>
+                                    <td className="p-3 border-b text-right">{formatCurrency(item.unitPrice, language)}</td>
+                                    <td className="p-3 border-b text-right">{formatCurrency(item.subtotal, language)}</td>
                                 </tr>
                             );
 
@@ -1817,19 +1876,19 @@ const Invoice = React.memo(({ sale, products, companyProfile, onClose, showAlert
                     </tbody>
                 </table>
                 <div className="text-right w-full max-w-xs ml-auto">
-                    <div className="flex justify-between"><span className="font-semibold">Subtotal:</span><span>{formatCurrency(sale.items.reduce((acc, i) => acc + i.subtotal, 0))}</span></div>
-                    {sale.discountAmount > 0 && <div className="flex justify-between text-red-500"><span className="font-semibold">Discount:</span><span>-{formatCurrency(sale.discountAmount)}</span></div>}
-                    <div className="flex justify-between"><span className="font-semibold">Amount before tax:</span><span>{formatCurrency(sale.totalPrice - sale.vatAmount)}</span></div>
-                    {sale.vatAmount > 0 && <div className="flex justify-between"><span className="font-semibold">VAT (18%):</span><span>+{formatCurrency(sale.vatAmount)}</span></div>}
-                    <div className="flex justify-between text-2xl font-bold border-t mt-2 pt-2"><span className="font-semibold">TOTAL:</span><span>{formatCurrency(sale.totalPrice)}</span></div>
+                    <div className="flex justify-between"><span className="font-semibold">{t('subtotal')}:</span><span>{formatCurrency(sale.items.reduce((acc, i) => acc + i.subtotal, 0), language)}</span></div>
+                    {sale.discountAmount > 0 && <div className="flex justify-between text-red-500"><span className="font-semibold">{t('discount')}:</span><span>-{formatCurrency(sale.discountAmount, language)}</span></div>}
+                    <div className="flex justify-between"><span className="font-semibold">{t('amountBeforeTax')}:</span><span>{formatCurrency(sale.totalPrice - sale.vatAmount, language)}</span></div>
+                    {sale.vatAmount > 0 && <div className="flex justify-between"><span className="font-semibold">{t('vat18')}:</span><span>+{formatCurrency(sale.vatAmount, language)}</span></div>}
+                    <div className="flex justify-between text-2xl font-bold border-t mt-2 pt-2"><span className="font-semibold">{t('total').toUpperCase()}:</span><span>{formatCurrency(sale.totalPrice, language)}</span></div>
                 </div>
-                <div className="mt-12 text-center text-sm text-gray-500"><p>{companyProfile.invoiceFooterMessage || "Thank you for your purchase!"}</p></div>
+                <div className="mt-12 text-center text-sm text-gray-500"><p>{companyProfile.invoiceFooterMessage || t('thankYou')}</p></div>
             </div>
             <div className="flex justify-end space-x-2 p-6 bg-gray-50 rounded-b-2xl no-print">
-                <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg bg-gray-200">Close</button>
-                 {canShare && ( <button onClick={handleSharePDF} className="flex items-center px-4 py-2 rounded-lg text-white bg-blue-600 font-semibold"><Share2 size={18} className="mr-2" /> Share</button> )}
+                <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg bg-gray-200">{t('close')}</button>
+                 {canShare && ( <button onClick={handleSharePDF} className="flex items-center px-4 py-2 rounded-lg text-white bg-blue-600 font-semibold"><Share2 size={18} className="mr-2" /> {t('share')}</button> )}
                 <button onClick={handleDownloadPDF} className="flex items-center px-4 py-2 rounded-lg text-white bg-green-600 font-semibold"><FileText size={18} className="mr-2" /> PDF</button>
-                <button onClick={handlePrint} className="flex items-center px-4 py-2 rounded-lg text-white bg-gray-500 font-semibold"><Printer size={18} className="mr-2" /> Print</button>
+                <button onClick={handlePrint} className="flex items-center px-4 py-2 rounded-lg text-white bg-gray-500 font-semibold"><Printer size={18} className="mr-2" /> {t('print')}</button>
             </div>
         </div>
     );
@@ -1895,7 +1954,7 @@ const CompanyProfileForm = React.memo(({ onSubmit, initialData, t }) => {
     );
 });
 
-const PaymentForm = React.memo(({ onSubmit, sale, customers, onClose }) => {
+const PaymentForm = React.memo(({ onSubmit, sale, customers, onClose, t, language }) => {
     const customer = useMemo(() => customers.find(c => c.id === sale.customerId), [customers, sale]);
     const remainingBalance = sale.totalPrice - (sale.paidAmount || 0);
     const [amount, setAmount] = useState(remainingBalance);
@@ -1907,20 +1966,20 @@ const PaymentForm = React.memo(({ onSubmit, sale, customers, onClose }) => {
     const handleSubmit = (e) => { e.preventDefault(); onSubmit(amount, paymentType); };
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
-            <h3 className="text-2xl font-bold text-center">Make a Payment</h3>
+            <h3 className="text-2xl font-bold text-center">{t('makeAPayment')}</h3>
             <div className="p-4 bg-gray-50 rounded-lg space-y-1">
-                <p><strong>Customer:</strong> {sale.customerName}</p>
-                <p className="font-bold text-red-600">Remaining Balance: {formatCurrency(remainingBalance)}</p>
+                <p><strong>{t('customers')}:</strong> {sale.customerName}</p>
+                <p className="font-bold text-red-600">{t('remainingBalance')}: {formatCurrency(remainingBalance, language)}</p>
             </div>
-            <FormField label="Amount Paid" type="number" value={amount} onChange={e => setAmount(e.target.value)} required min="1" max={paymentType === 'Acompte Client' ? Math.min(remainingBalance, customer?.balance || 0) : remainingBalance} />
-            <FormSelect label="Payment Method" value={paymentType} onChange={e => setPaymentType(e.target.value)} required>
+            <FormField label={t('amountPaid')} type="number" value={amount} onChange={e => setAmount(e.target.value)} required min="1" max={paymentType === 'Acompte Client' ? Math.min(remainingBalance, customer?.balance || 0) : remainingBalance} />
+            <FormSelect label={t('paymentMethod')} value={paymentType} onChange={e => setPaymentType(e.target.value)} required>
                 {PAYMENT_TYPES.filter(p => p !== 'Créance').filter(p => p !== 'Acompte Client' || (customer && customer.balance > 0)).map(type => 
-                    <option key={type} value={type}>{type} {type === 'Acompte Client' && `(Available: ${formatCurrency(customer?.balance || 0)})`}</option>
+                    <option key={type} value={type}>{type} {type === 'Acompte Client' && `(${t('available')}: ${formatCurrency(customer?.balance || 0, language)})`}</option>
                 )}
             </FormSelect>
             <div className="flex justify-end space-x-4 pt-4">
-                <button type="button" onClick={onClose} className="px-6 py-2 rounded-lg bg-gray-200">Cancel</button>
-                <button type="submit" className="px-6 py-2 rounded-lg text-white bg-green-500 font-semibold">Save Payment</button>
+                <button type="button" onClick={onClose} className="px-6 py-2 rounded-lg bg-gray-200">{t('cancel')}</button>
+                <button type="submit" className="px-6 py-2 rounded-lg text-white bg-green-500 font-semibold">{t('savePayment')}</button>
             </div>
         </form>
     );
@@ -1940,16 +1999,16 @@ const StatusBadge = React.memo(({ status }) => {
     return <span className={`px-2 py-1 text-xs font-semibold rounded-full capitalize ${statusClasses[status] || 'bg-gray-100 text-gray-800'}`}>{status}</span>;
 });
 
-const ProductSelectionModal = React.memo(({ products, onAddToCart, openModal, onClose, onProceedToCart, cart }) => {
+const ProductSelectionModal = React.memo(({ products, onAddToCart, openModal, onClose, onProceedToCart, cart, t, language }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const filteredProducts = useMemo(() => products.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase())), [products, searchTerm]);
 
     return (
         <div>
             <div className="flex justify-between items-center mb-4">
-                <h3 className="text-2xl font-bold">Select products</h3>
+                <h3 className="text-2xl font-bold">{t('selectProducts')}</h3>
                 <div className="relative w-1/3">
-                    <input type="text" placeholder="Search..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="w-full pl-10 pr-4 py-2 border rounded-lg"/>
+                    <input type="text" placeholder={t('search')} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="w-full pl-10 pr-4 py-2 border rounded-lg"/>
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20}/>
                 </div>
             </div>
@@ -1958,21 +2017,21 @@ const ProductSelectionModal = React.memo(({ products, onAddToCart, openModal, on
                     <div key={product.id} onClick={() => openModal('productDetails', product, 'md')} className="bg-white rounded-lg shadow p-3 flex flex-col items-center text-center cursor-pointer hover:shadow-lg transition-shadow">
                         <img src={product.photoURL || 'https://placehold.co/150x150'} alt={product.name} className="w-full h-28 object-cover rounded-md mb-2"/>
                         <h4 className="font-semibold text-sm flex-grow">{product.name}</h4>
-                        <p className="text-blue-600 font-bold text-sm">{formatCurrency(product.price || product.basePrice)}</p>
+                        <p className="text-blue-600 font-bold text-sm">{formatCurrency(product.price || product.basePrice, language)}</p>
                     </div>
                 ))}
             </div>
             <div className="flex justify-end space-x-4 pt-6 mt-4 border-t">
-                <button type="button" onClick={onClose} className="px-6 py-2 rounded-lg bg-gray-200">Cancel</button>
+                <button type="button" onClick={onClose} className="px-6 py-2 rounded-lg bg-gray-200">{t('cancel')}</button>
                 <button type="button" onClick={onProceedToCart} className="px-6 py-2 rounded-lg text-white bg-blue-500 font-semibold flex items-center">
-                    View Cart <span className="ml-2 bg-white text-blue-500 text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">{cart.length}</span>
+                    {t('viewCart')} <span className="ml-2 bg-white text-blue-500 text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">{cart.length}</span>
                 </button>
             </div>
         </div>
     )
 });
 
-const ProductDetailModal = React.memo(({ product, onAddToCart, onClose, openModal }) => {
+const ProductDetailModal = React.memo(({ product, onAddToCart, onClose, openModal, t, language }) => {
     const [quantity, setQuantity] = useState(1);
     const [selectedVariantId, setSelectedVariantId] = useState(product.variants?.[0]?.id || null);
 
@@ -1998,27 +2057,27 @@ const ProductDetailModal = React.memo(({ product, onAddToCart, onClose, openModa
         <div className="p-4">
             <h3 className="text-2xl font-bold text-center mb-4">{product.name}</h3>
             <img src={product.photoURL || 'https://placehold.co/300x200'} alt={product.name} className="w-full h-48 object-cover rounded-lg mb-4"/>
-            <p className="text-center text-xl font-bold text-blue-600 mb-4">{formatCurrency(selectedVariant ? (product.basePrice || 0) + (selectedVariant.priceModifier || 0) : product.price)}</p>
+            <p className="text-center text-xl font-bold text-blue-600 mb-4">{formatCurrency(selectedVariant ? (product.basePrice || 0) + (selectedVariant.priceModifier || 0) : product.price, language)}</p>
             <p className="text-sm text-gray-600 mb-4">{product.description}</p>
             
             {product.type === PRODUCT_TYPES.VARIANT && (
                 <div className="mb-4">
-                    <label className="font-semibold">Variant:</label>
+                    <label className="font-semibold">{t('variant')}:</label>
                     <FormSelect value={selectedVariantId} onChange={e => setSelectedVariantId(e.target.value)}>
                         {product.variants.map(v => (
-                            <option key={v.id} value={v.id}>{v.name} (Stock: {v.quantity})</option>
+                            <option key={v.id} value={v.id}>{v.name} ({t('stock')}: {v.quantity})</option>
                         ))}
                     </FormSelect>
                 </div>
             )}
 
             <div className="flex items-center justify-center gap-4 mb-6">
-                 <label className="font-semibold">Quantity:</label>
+                 <label className="font-semibold">{t('quantity')}:</label>
                  <input type="number" value={quantity} onChange={e => setQuantity(Number(e.target.value))} min="1" max={maxQuantity} className="w-24 text-center border rounded-md p-2"/>
             </div>
             <div className="flex justify-center space-x-4">
-                <button type="button" onClick={() => openModal('editProduct', product, 'lg')} className="px-6 py-2 rounded-lg bg-gray-200">Manage Stock</button>
-                <button type="button" onClick={handleAddAndReturn} className="px-6 py-2 rounded-lg text-white bg-blue-500 font-semibold">Add to Cart</button>
+                <button type="button" onClick={() => openModal('editProduct', product, 'lg')} className="px-6 py-2 rounded-lg bg-gray-200">{t('manageStock')}</button>
+                <button type="button" onClick={handleAddAndReturn} className="px-6 py-2 rounded-lg text-white bg-blue-500 font-semibold">{t('addToCart')}</button>
             </div>
         </div>
     );
