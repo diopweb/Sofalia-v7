@@ -18,7 +18,7 @@ import {
     orderBy,
     runTransaction,
 } from 'firebase/firestore';
-import { Printer, Plus, Trash2, Edit, X, Users, Package, ShoppingCart, DollarSign, BarChart2, Tag, Image as ImageIcon, CreditCard, CheckCircle, ListChecks, Settings, AlertCircle, FileText, ArrowLeft, Filter, Share2, List, LayoutGrid, MinusCircle, PlusCircle, Search, Archive, ChevronDown, Phone, MessageSquare } from 'lucide-react';
+import { Printer, Plus, Trash2, Edit, X, Users, Package, ShoppingCart, DollarSign, BarChart2, Tag, Image as ImageIcon, CreditCard, CheckCircle, ListChecks, Settings, AlertCircle, FileText, ArrowLeft, Filter, Share2, List, LayoutGrid, MinusCircle, PlusCircle, Search, Archive, ChevronDown, Phone, MessageSquare, Menu } from 'lucide-react';
 
 // --- Translations ---
 const translations = {
@@ -253,6 +253,9 @@ export default function App() {
     const [alertInfo, setAlertInfo] = useState({ show: false, message: '' });
     const [confirmInfo, setConfirmInfo] = useState({ show: false, message: '', onConfirm: null });
 
+    const [isMenuCollapsed, setIsMenuCollapsed] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
     const t = useCallback((key) => {
         return translations[language][key] || key;
     }, [language]);
@@ -279,6 +282,7 @@ export default function App() {
     const navigate = useCallback((view, payload = null) => {
         setCurrentView(view);
         setViewPayload(payload);
+        setIsMobileMenuOpen(false);
     }, []);
 
     const addToCart = useCallback((product, quantity, variant = null) => {
@@ -670,9 +674,18 @@ export default function App() {
         <>
             <style>{`.invoice-container, .receipt-container { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; } @media print { body * { visibility: hidden; } .printable-area, .printable-area * { visibility: visible; } .printable-area { position: absolute; left: 0; top: 0; width: 100%; height: 100%; margin: 0; padding: 20px; font-size: 12px; } .no-print { display: none; } }`}</style>
             <div className="flex h-screen bg-gray-100 font-sans">
-                <nav className="w-64 bg-white shadow-lg flex flex-col no-print">
-                    <div className="p-4 text-2xl font-bold text-gray-800 border-b h-20 flex items-center justify-center bg-transparent">
-                        {companyProfile.logo ? <img src={companyProfile.logo} alt={companyProfile.name} className="max-h-full max-w-full object-contain" /> : companyProfile.name}
+                {/* Mobile Menu Overlay */}
+                {isMobileMenuOpen && <div className="fixed inset-0 bg-black bg-opacity-50 z-20 md:hidden" onClick={() => setIsMobileMenuOpen(false)}></div>}
+                
+                {/* Sidebar Navigation */}
+                <nav className={`fixed inset-y-0 left-0 bg-white shadow-lg flex flex-col z-30 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} ${isMenuCollapsed ? 'md:w-20' : 'md:w-64'}`}>
+                    <div className={`flex items-center border-b h-16 ${isMenuCollapsed ? 'justify-center' : 'justify-between'} px-4`}>
+                         <div className={`font-bold text-gray-800 text-2xl ${isMenuCollapsed ? 'hidden' : 'block'}`}>
+                            {companyProfile.logo ? <img src={companyProfile.logo} alt={companyProfile.name} className="max-h-10 max-w-full object-contain" /> : companyProfile.name}
+                        </div>
+                        <button onClick={() => setIsMenuCollapsed(!isMenuCollapsed)} className="hidden md:block p-2 rounded-full hover:bg-gray-200">
+                            <Menu size={24} />
+                        </button>
                     </div>
                     <ul className="flex-1 p-4 space-y-2">
                         {navItems.map(item => (
@@ -682,10 +695,11 @@ export default function App() {
                                 label={item.label} 
                                 active={item.activeViews.includes(currentView)}
                                 onClick={() => navigate(item.view)} 
+                                isCollapsed={isMenuCollapsed}
                             />
                         ))}
                     </ul>
-                    <div className="p-4 border-t text-xs text-gray-500">
+                    <div className={`p-4 border-t text-xs text-gray-500 ${isMenuCollapsed ? 'hidden' : 'block'}`}>
                         <p>User: {userPseudo}</p>
                         <p className="font-bold capitalize">Role: {userRole}</p>
                          {cart.length > 0 && (
@@ -695,17 +709,29 @@ export default function App() {
                         )}
                     </div>
                 </nav>
-                <main className="flex-1 p-8 overflow-y-auto">
-                    {currentView === 'dashboard' && <DashboardView sales={sales} products={products} customers={customers} categories={categories} productsToReorder={productsToReorder} openSaleModal={openSaleModal} navigate={navigate} handleShowInvoice={handleShowInvoice} openModal={openModal} t={t} language={language} />}
-                    {currentView === 'products' && <ProductsView products={products} categories={categories} openModal={openModal} handleDelete={handleDeleteItem} setCart={setCart} openSaleModal={openSaleModal} productsToReorder={productsToReorder} t={t} language={language} />}
-                    {currentView === 'categories' && <CategoriesView categories={categories} openModal={openModal} handleDelete={handleDeleteItem} t={t} language={language} />}
-                    {currentView === 'customers' && <CustomersView customers={customers} openModal={openModal} handleDelete={handleDeleteItem} navigate={navigate} t={t} language={language} />}
-                    {currentView === 'customer-details' && <CustomerDetailsView customerId={viewPayload?.id} customers={customers} db={db} appId={appId} navigate={navigate} openSaleModal={openSaleModal} t={t} language={language} />}
-                    {currentView === 'sales' && <SalesView sales={sales} handleShowInvoice={handleShowInvoice} t={t} language={language} />}
-                    {currentView === 'debts' && <DebtsView sales={sales} openModal={openModal} t={t} language={language} />}
-                    {currentView === 'refunds' && <RefundsView payments={payments} t={t} language={language} />}
-                    {currentView === 'settings' && <SettingsView companyProfile={companyProfile} handleSaveProfile={handleSaveProfile} t={t} />}
-                </main>
+                
+                <div className="flex-1 flex flex-col">
+                     {/* Mobile Header */}
+                    <header className="md:hidden flex justify-between items-center bg-white shadow-md p-4 sticky top-0 z-10">
+                        <button onClick={() => setIsMobileMenuOpen(true)} className="p-2">
+                            <Menu size={24} />
+                        </button>
+                        <div className="text-lg font-bold">{t(currentView)}</div>
+                        <div className="w-8"></div> {/* Spacer */}
+                    </header>
+                    <main className="flex-1 p-4 sm:p-8 overflow-y-auto">
+                        {currentView === 'dashboard' && <DashboardView sales={sales} products={products} customers={customers} categories={categories} productsToReorder={productsToReorder} openSaleModal={openSaleModal} navigate={navigate} handleShowInvoice={handleShowInvoice} openModal={openModal} t={t} language={language} />}
+                        {currentView === 'products' && <ProductsView products={products} categories={categories} openModal={openModal} handleDelete={handleDeleteItem} setCart={setCart} openSaleModal={openSaleModal} productsToReorder={productsToReorder} t={t} language={language} />}
+                        {currentView === 'categories' && <CategoriesView categories={categories} openModal={openModal} handleDelete={handleDeleteItem} t={t} language={language} />}
+                        {currentView === 'customers' && <CustomersView customers={customers} openModal={openModal} handleDelete={handleDeleteItem} navigate={navigate} t={t} language={language} />}
+                        {currentView === 'customer-details' && <CustomerDetailsView customerId={viewPayload?.id} customers={customers} db={db} appId={appId} navigate={navigate} openSaleModal={openSaleModal} t={t} language={language} />}
+                        {currentView === 'sales' && <SalesView sales={sales} handleShowInvoice={handleShowInvoice} t={t} language={language} />}
+                        {currentView === 'debts' && <DebtsView sales={sales} openModal={openModal} t={t} language={language} />}
+                        {currentView === 'refunds' && <RefundsView payments={payments} t={t} language={language} />}
+                        {currentView === 'settings' && <SettingsView companyProfile={companyProfile} handleSaveProfile={handleSaveProfile} t={t} />}
+                    </main>
+                </div>
+
                 {modalState.isOpen && (<Modal onClose={closeModal} size={modalState.size}>{renderModalContent()}</Modal>)}
                 {alertInfo.show && <AlertModal message={alertInfo.message} onClose={() => setAlertInfo({ show: false, message: '' })} />}
                 {confirmInfo.show && <ConfirmModal message={confirmInfo.message} onConfirm={() => { confirmInfo.onConfirm(); setConfirmInfo({ ...confirmInfo, show: false }); }} onClose={() => setConfirmInfo({ ...confirmInfo, show: false })} />}
@@ -715,8 +741,13 @@ export default function App() {
 }
 
 // --- View and Form Components ---
-const NavItem = React.memo(({ icon, label, active, onClick }) => (
-    <li><a href="#" onClick={onClick} className={`flex items-center p-3 rounded-lg transition-colors ${active ? 'bg-blue-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-200'}`}>{icon}<span className="ml-4 font-medium">{label}</span></a></li>
+const NavItem = React.memo(({ icon, label, active, onClick, isCollapsed }) => (
+    <li>
+        <a href="#" onClick={onClick} className={`flex items-center p-3 rounded-lg transition-colors ${active ? 'bg-blue-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-200'} ${isCollapsed ? 'justify-center' : ''}`}>
+            {icon}
+            <span className={`ml-4 font-medium whitespace-nowrap overflow-hidden ${isCollapsed ? 'md:hidden' : 'block'}`}>{label}</span>
+        </a>
+    </li>
 ));
 
 // --- VIEWS ---
@@ -801,28 +832,32 @@ const DashboardView = React.memo(({ sales, products, customers, categories, prod
             {productsToReorder.length > 0 && (
                 <div className="mt-8 bg-white p-6 rounded-2xl shadow-md">
                     <h3 className="text-xl font-bold text-orange-600 mb-4 flex items-center"><AlertCircle className="mr-2"/>{t('lowStock')}</h3>
-                    <table className="w-full text-left">
-                        <thead><tr className="border-b"><th className="p-3">{t('products')}</th><th className="p-3">{t('currentStock')}</th><th className="p-3">{t('threshold')}</th></tr></thead>
-                        <tbody>{productsToReorder.map(p => (<tr key={p.id} className="border-b hover:bg-gray-50"><td className="p-3">{p.name}</td><td className="p-3 font-bold text-red-500">{p.quantity}</td><td className="p-3 text-sm text-gray-500">{p.reorderThreshold || 0}</td></tr>))}</tbody>
-                    </table>
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left">
+                            <thead><tr className="border-b"><th className="p-3">{t('products')}</th><th className="p-3">{t('currentStock')}</th><th className="p-3">{t('threshold')}</th></tr></thead>
+                            <tbody>{productsToReorder.map(p => (<tr key={p.id} className="border-b hover:bg-gray-50"><td className="p-3">{p.name}</td><td className="p-3 font-bold text-red-500">{p.quantity}</td><td className="p-3 text-sm text-gray-500">{p.reorderThreshold || 0}</td></tr>))}</tbody>
+                        </table>
+                    </div>
                 </div>
             )}
             <div className="mt-8 bg-white p-6 rounded-2xl shadow-md">
                 <h3 className="text-xl font-bold text-gray-700 mb-4">{t('recentSales')}</h3>
-                <table className="w-full text-left">
-                    <thead><tr className="border-b"><th className="p-3">{t('invoiceNo')}</th><th className="p-3">{t('products')}</th><th className="p-3">{t('customers')}</th><th className="p-3">{t('total')}</th><th className="p-3">{t('date')}</th></tr></thead>
-                    <tbody>
-                        {displayedSales.map(sale => (
-                            <tr key={sale.id} className="border-b hover:bg-gray-50">
-                                <td className="p-3 font-semibold">{sale.invoiceId}</td>
-                                <td className="p-3 text-sm">{sale.items.map(i => i.productName).join(', ')}</td>
-                                <td className="p-3">{sale.customerName}</td>
-                                <td className="p-3 font-medium text-green-600">{formatCurrency(sale.totalPrice, language)}</td>
-                                <td className="p-3 text-sm text-gray-500">{formatDate(sale.saleDate, language)}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                 <div className="overflow-x-auto">
+                    <table className="w-full text-left">
+                        <thead><tr className="border-b"><th className="p-3">{t('invoiceNo')}</th><th className="p-3">{t('products')}</th><th className="p-3">{t('customers')}</th><th className="p-3">{t('total')}</th><th className="p-3">{t('date')}</th></tr></thead>
+                        <tbody>
+                            {displayedSales.map(sale => (
+                                <tr key={sale.id} className="border-b hover:bg-gray-50">
+                                    <td className="p-3 font-semibold">{sale.invoiceId}</td>
+                                    <td className="p-3 text-sm">{sale.items.map(i => i.productName).join(', ')}</td>
+                                    <td className="p-3">{sale.customerName}</td>
+                                    <td className="p-3 font-medium text-green-600">{formatCurrency(sale.totalPrice, language)}</td>
+                                    <td className="p-3 text-sm text-gray-500">{formatDate(sale.saleDate, language)}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );
@@ -895,7 +930,7 @@ const ProductsView = React.memo(({ products, categories, openModal, handleDelete
     const categoryMap = useMemo(() => categories.reduce((acc, cat) => ({...acc, [cat.id]: cat }), {}), [categories]);
 
     return (
-        <div className="bg-white p-8 rounded-2xl shadow-md">
+        <div className="bg-white p-4 sm:p-8 rounded-2xl shadow-md">
             <div className="flex justify-between items-center mb-2 flex-wrap gap-4">
                 <h2 className="text-3xl font-bold text-gray-800">{t('products')}</h2>
                  {activeTab === 'list' && (
@@ -966,7 +1001,7 @@ const ProductsView = React.memo(({ products, categories, openModal, handleDelete
 const CategoriesView = React.memo(({ categories, openModal, handleDelete, t }) => {
     const categoryMap = useMemo(() => categories.reduce((acc, cat) => ({...acc, [cat.id]: cat.name}), {}), [categories]);
     return (
-        <div className="bg-white p-8 rounded-2xl shadow-md">
+        <div className="bg-white p-4 sm:p-8 rounded-2xl shadow-md">
             <div className="flex justify-between items-center mb-6"><h2 className="text-3xl font-bold text-gray-800">{t('categories')}</h2>
                 <button onClick={() => openModal('addCategory')} className="flex items-center bg-blue-500 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600"><Plus size={20} className="mr-2" /> {t('addCategory')}</button>
             </div>
@@ -993,19 +1028,19 @@ const CustomersView = React.memo(({ customers, openModal, handleDelete, navigate
     const [searchTerm, setSearchTerm] = useState('');
     const filteredCustomers = useMemo(() => customers.filter(c => c.name.toLowerCase().includes(searchTerm.toLowerCase())), [customers, searchTerm]);
     return (
-        <div className="bg-white p-8 rounded-2xl shadow-md">
+        <div className="bg-white p-4 sm:p-8 rounded-2xl shadow-md">
             <div className="flex justify-between items-center mb-6"><h2 className="text-3xl font-bold text-gray-800">{t('customers')}</h2>
                 <button onClick={() => openModal('addCustomer')} className="flex items-center bg-blue-500 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600"><Plus size={20} className="mr-2" /> {t('addCustomer')}</button>
             </div>
             <div className="mb-4"><input type="text" placeholder={t('searchCustomer')} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="w-full px-4 py-2 border rounded-lg" /></div>
             <div className="overflow-x-auto"><table className="w-full text-left">
-                <thead><tr className="border-b-2"><th className="p-4">{t('name')}</th><th className="p-4">{t('nickname')}</th><th className="p-4">{t('phone')}</th><th className="p-4">{t('customerDeposit')}</th><th className="p-4 text-right">{t('actions')}</th></tr></thead>
+                <thead><tr className="border-b-2"><th className="p-4">{t('name')}</th><th className="p-4 hidden sm:table-cell">{t('nickname')}</th><th className="p-4">{t('phone')}</th><th className="p-4 hidden md:table-cell">{t('customerDeposit')}</th><th className="p-4 text-right">{t('actions')}</th></tr></thead>
                 <tbody>{filteredCustomers.map(item => (
                     <tr key={item.id} className="border-b hover:bg-gray-50">
                         <td className="p-4"><a href="#" onClick={(e) => { e.preventDefault(); navigate('customer-details', { id: item.id }); }} className="text-blue-600 hover:underline">{item.name}</a></td>
-                        <td className="p-4">{item.nickname}</td>
+                        <td className="p-4 hidden sm:table-cell">{item.nickname}</td>
                         <td className="p-4">{item.phone}</td>
-                        <td className="p-4">{formatCurrency(item.balance || 0, language)}</td>
+                        <td className="p-4 hidden md:table-cell">{formatCurrency(item.balance || 0, language)}</td>
                         <td className="p-4 text-right">
                             <button onClick={() => openModal('addDeposit', item)} title="Add deposit" className="text-green-500 hover:text-green-700 mr-4"><DollarSign size={20} /></button>
                             <button onClick={() => openModal('editCustomer', item)} className="text-blue-500 hover:text-blue-700 mr-4"><Edit size={20} /></button>
@@ -1045,7 +1080,7 @@ const CustomerDetailsView = React.memo(({ customerId, customers, db, appId, navi
     const sanitizedPhone = customer.phone ? customer.phone.replace(/[\s+()-]/g, '') : '';
     
     return (
-        <div className="bg-white p-8 rounded-2xl shadow-md">
+        <div className="bg-white p-4 sm:p-8 rounded-2xl shadow-md">
             <div className="flex justify-between items-start mb-4 flex-wrap gap-4">
                 <div>
                     <button onClick={() => navigate('customers')} className="flex items-center text-blue-600 hover:underline mb-4"><ArrowLeft size={18} className="mr-2" /> {t('backToList')}</button>
@@ -1077,12 +1112,12 @@ const CustomerDetailsView = React.memo(({ customerId, customers, db, appId, navi
             </div>
             <h3 className="text-xl font-bold text-gray-700 mb-4">{t('purchaseHistory')}</h3>
             <div className="overflow-x-auto">{loading ? <p>{t('loading')}...</p> : <table className="w-full text-left">
-                <thead><tr className="border-b"><th className="p-3">{t('invoiceNo')}</th><th className="p-3">{t('date')}</th><th className="p-3">{t('products')}</th><th className="p-3 text-right">{t('total')}</th><th className="p-3 text-center">Status</th></tr></thead>
+                <thead><tr className="border-b"><th className="p-3">{t('invoiceNo')}</th><th className="p-3">{t('date')}</th><th className="p-3 hidden sm:table-cell">{t('products')}</th><th className="p-3 text-right">{t('total')}</th><th className="p-3 text-center">Status</th></tr></thead>
                 <tbody>{customerSales.length > 0 ? customerSales.map(sale => (
                     <tr key={sale.id} className="border-b hover:bg-gray-50">
                         <td className="p-3 font-semibold">{sale.invoiceId}</td>
                         <td className="p-3">{formatDateTime(sale.saleDate, language)}</td>
-                        <td className="p-3 text-sm">{sale.items.map(i => `${i.productName} (x${i.quantity})`).join(', ')}</td>
+                        <td className="p-3 text-sm hidden sm:table-cell">{sale.items.map(i => `${i.productName} (x${i.quantity})`).join(', ')}</td>
                         <td className="p-3 text-right">{formatCurrency(sale.totalPrice, language)}</td>
                         <td className="p-3 text-center"><StatusBadge status={sale.status} /></td>
                     </tr>
@@ -1115,7 +1150,7 @@ const SalesView = React.memo(({ sales, handleShowInvoice, t, language }) => {
     const subtotal = useMemo(() => filteredSales.reduce((acc, sale) => acc + sale.totalPrice, 0), [filteredSales]);
 
     return (
-        <div className="bg-white p-8 rounded-2xl shadow-md">
+        <div className="bg-white p-4 sm:p-8 rounded-2xl shadow-md">
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-3xl font-bold text-gray-800">{t('sales')}</h2>
                 <button onClick={() => setShowFilters(!showFilters)} className="flex items-center text-sm font-semibold text-blue-600 hover:text-blue-800"><Filter size={16} className="mr-1" /> {showFilters ? t('hide') : t('filter')}</button>
@@ -1138,13 +1173,13 @@ const SalesView = React.memo(({ sales, handleShowInvoice, t, language }) => {
             </div>)}
             {filteredSales.length > 0 && <p className="mb-4 text-lg font-bold">{t('totalDisplayed')}: {formatCurrency(subtotal, language)}</p>}
             <div className="overflow-x-auto"><table className="w-full text-left">
-                <thead><tr className="border-b"><th className="p-3">{t('invoiceNo')}</th><th className="p-3">{t('products')}</th><th className="p-3">{t('customers')}</th><th className="p-3">{t('total')}</th><th className="p-3">{t('date')}</th><th className="p-3">Status</th><th className="p-3 text-right">{t('actions')}</th></tr></thead>
+                <thead><tr className="border-b"><th className="p-3">{t('invoiceNo')}</th><th className="p-3 hidden sm:table-cell">{t('products')}</th><th className="p-3">{t('customers')}</th><th className="p-3">{t('total')}</th><th className="p-3 hidden md:table-cell">{t('date')}</th><th className="p-3">Status</th><th className="p-3 text-right">{t('actions')}</th></tr></thead>
                 <tbody>{filteredSales.map(sale => (
                     <tr key={sale.id} className="border-b hover:bg-gray-50">
                         <td className="p-3 font-semibold">{sale.invoiceId}</td>
-                        <td className="p-3 text-sm">{sale.items.map(i => i.productName).join(', ')}</td>
+                        <td className="p-3 text-sm hidden sm:table-cell">{sale.items.map(i => i.productName).join(', ')}</td>
                         <td className="p-3">{sale.customerName}</td><td className="p-3">{formatCurrency(sale.totalPrice, language)}</td>
-                        <td className="p-3">{formatDateTime(sale.saleDate, language)}</td>
+                        <td className="p-3 hidden md:table-cell">{formatDateTime(sale.saleDate, language)}</td>
                         <td className="p-3"><StatusBadge status={sale.status} /></td>
                         <td className="p-3 text-right"><button onClick={() => handleShowInvoice(sale)}><Printer size={20} /></button></td>
                     </tr>
@@ -1157,18 +1192,18 @@ const SalesView = React.memo(({ sales, handleShowInvoice, t, language }) => {
 const DebtsView = React.memo(({ sales, openModal, t, language }) => {
     const debtSales = useMemo(() => sales.filter(s => s.status === SALE_STATUS.CREDIT), [sales]);
     return (
-        <div className="bg-white p-8 rounded-2xl shadow-md">
+        <div className="bg-white p-4 sm:p-8 rounded-2xl shadow-md">
              <h2 className="text-3xl font-bold text-gray-800 mb-6">{t('debts')}</h2>
              <div className="overflow-x-auto"><table className="w-full text-left">
                 <thead><tr className="border-b">
-                    <th className="p-3">{t('invoiceNo')}</th><th className="p-3">{t('customers')}</th><th className="p-3">{t('amountDue')}</th><th className="p-3">{t('date')}</th><th className="p-3 text-right">{t('actions')}</th>
+                    <th className="p-3">{t('invoiceNo')}</th><th className="p-3">{t('customers')}</th><th className="p-3">{t('amountDue')}</th><th className="p-3 hidden md:table-cell">{t('date')}</th><th className="p-3 text-right">{t('actions')}</th>
                 </tr></thead>
                 <tbody>{debtSales.map(sale => (
                     <tr key={sale.id} className="border-b hover:bg-gray-50">
                         <td className="p-3 font-semibold">{sale.invoiceId}</td>
                         <td className="p-3">{sale.customerName}</td>
                         <td className="p-3 text-red-600 font-semibold">{formatCurrency(sale.totalPrice - (sale.paidAmount || 0), language)}</td>
-                        <td className="p-3">{formatDateTime(sale.saleDate, language)}</td>
+                        <td className="p-3 hidden md:table-cell">{formatDateTime(sale.saleDate, language)}</td>
                         <td className="p-3 text-right"><button onClick={() => openModal('makePayment', sale)} className="text-green-500"><CheckCircle size={20} /></button></td>
                     </tr>
                 ))}</tbody>
@@ -1180,15 +1215,15 @@ const DebtsView = React.memo(({ sales, openModal, t, language }) => {
 const RefundsView = React.memo(({ payments, t, language }) => {
     const sortedPayments = useMemo(() => [...payments].sort((a,b) => new Date(b.paymentDate) - new Date(a.paymentDate)), [payments]);
     return (
-        <div className="bg-white p-8 rounded-2xl shadow-md">
+        <div className="bg-white p-4 sm:p-8 rounded-2xl shadow-md">
              <h2 className="text-3xl font-bold text-gray-800 mb-6">{t('refundHistory')}</h2>
              <div className="overflow-x-auto"><table className="w-full text-left">
-                <thead><tr className="border-b"><th className="p-3">{t('date')}</th><th className="p-3">{t('customers')}</th><th className="p-3">{t('amount')}</th><th className="p-3">{t('method')}</th><th className="p-3">{t('invoiceRef')}</th></tr></thead>
+                <thead><tr className="border-b"><th className="p-3">{t('date')}</th><th className="p-3">{t('customers')}</th><th className="p-3">{t('amount')}</th><th className="p-3 hidden sm:table-cell">{t('method')}</th><th className="p-3">{t('invoiceRef')}</th></tr></thead>
                 <tbody>{sortedPayments.map((item, index) => (<tr key={item.id || index} className="border-b hover:bg-gray-50">
                     <td className="p-3">{formatDateTime(item.paymentDate, language)}</td>
                     <td className="p-3">{item.customerName}</td>
                     <td className="p-3">{formatCurrency(item.amount, language)}</td>
-                    <td className="p-3">{item.paymentType}</td>
+                    <td className="p-3 hidden sm:table-cell">{item.paymentType}</td>
                     <td className="p-3">{item.invoiceId}</td>
                 </tr>))}</tbody>
              </table></div>
@@ -1198,7 +1233,7 @@ const RefundsView = React.memo(({ payments, t, language }) => {
 
 const SettingsView = React.memo(({ companyProfile, handleSaveProfile, t }) => {
     return (
-        <div className="bg-white p-8 rounded-2xl shadow-md max-w-2xl mx-auto">
+        <div className="bg-white p-4 sm:p-8 rounded-2xl shadow-md max-w-2xl mx-auto">
             <h2 className="text-3xl font-bold text-gray-800 mb-6">{t('settings')}</h2>
             <CompanyProfileForm initialData={companyProfile} onSubmit={handleSaveProfile} t={t} />
         </div>
