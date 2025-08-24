@@ -702,22 +702,33 @@ export default function App() {
                     <div className={`p-4 border-t text-xs text-gray-500 ${isMenuCollapsed ? 'hidden' : 'block'}`}>
                         <p>User: {userPseudo}</p>
                         <p className="font-bold capitalize">Role: {userRole}</p>
-                         {cart.length > 0 && (
-                          <button onClick={() => openModal('addSale', null, '7xl')} className="w-full mt-2 text-left flex items-center bg-yellow-100 text-yellow-800 p-2 rounded-lg">
-                            <ShoppingCart size={16} className="mr-2"/> Cart ({cart.length})
-                          </button>
-                        )}
                     </div>
                 </nav>
                 
                 <div className="flex-1 flex flex-col">
-                     {/* Mobile Header */}
-                    <header className="md:hidden flex justify-between items-center bg-white shadow-md p-4 sticky top-0 z-10">
-                        <button onClick={() => setIsMobileMenuOpen(true)} className="p-2">
-                            <Menu size={24} />
-                        </button>
-                        <div className="text-lg font-bold">{t(currentView)}</div>
-                        <div className="w-8"></div> {/* Spacer */}
+                     {/* Header for Mobile and Main Content */}
+                    <header className="flex justify-between items-center bg-white shadow-md p-4 sticky top-0 z-10">
+                        <div className="flex items-center gap-4">
+                            <button onClick={() => setIsMobileMenuOpen(true)} className="md:hidden p-2">
+                                <Menu size={24} />
+                            </button>
+                            <h2 className="text-xl sm:text-2xl font-bold text-gray-800">{t(currentView)}</h2>
+                        </div>
+                        
+                        {currentView !== 'settings' && (
+                            <div className="flex items-center gap-2 sm:gap-4">
+                                {cart.length > 0 && (
+                                    <button onClick={() => openModal('addSale', null, '7xl')} className="flex items-center bg-yellow-400 text-yellow-900 font-bold py-2 px-3 sm:px-4 rounded-lg shadow-md hover:bg-yellow-500 transition-colors">
+                                        <ShoppingCart size={20} className="mr-0 sm:mr-2" />
+                                        <span className="hidden sm:inline">{t('viewCart')}</span>
+                                        <span className="ml-2 bg-white text-yellow-900 text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">{cart.length}</span>
+                                    </button>
+                                )}
+                                <button onClick={() => openSaleModal()} className="flex items-center bg-blue-500 text-white font-bold py-2 px-3 sm:px-4 rounded-lg shadow-md hover:bg-blue-600 transition-colors">
+                                    <Plus size={20} className="mr-0 sm:mr-2" /> <span className="hidden sm:inline">{t('newSale')}</span>
+                                </button>
+                            </div>
+                        )}
                     </header>
                     <main className="flex-1 p-4 sm:p-8 overflow-y-auto">
                         {currentView === 'dashboard' && <DashboardView sales={sales} products={products} customers={customers} categories={categories} productsToReorder={productsToReorder} openSaleModal={openSaleModal} navigate={navigate} handleShowInvoice={handleShowInvoice} openModal={openModal} t={t} language={language} />}
@@ -781,13 +792,6 @@ const DashboardView = React.memo(({ sales, products, customers, categories, prod
 
     return (
         <div>
-            <div className="flex justify-between items-center mb-6">
-                <h2 className="text-3xl font-bold text-gray-800">{t('dashboard')}</h2>
-                <button onClick={() => openSaleModal()} className="flex items-center bg-blue-500 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition-colors">
-                    <ShoppingCart size={20} className="mr-2" /> {t('newSale')}
-                </button>
-            </div>
-            
             <div className="mb-8 relative">
                 <input 
                     type="text" 
@@ -931,23 +935,20 @@ const ProductsView = React.memo(({ products, categories, openModal, handleDelete
 
     return (
         <div className="bg-white p-4 sm:p-8 rounded-2xl shadow-md">
-            <div className="flex justify-between items-center mb-2 flex-wrap gap-4">
-                <h2 className="text-3xl font-bold text-gray-800">{t('products')}</h2>
-                 {activeTab === 'list' && (
-                    <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-2">
-                            <button onClick={() => setViewMode('list')} className={`p-2 rounded-lg ${viewMode === 'list' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-600'}`}><List/></button>
-                            <button onClick={() => setViewMode('grid')} className={`p-2 rounded-lg ${viewMode === 'grid' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-600'}`}><LayoutGrid/></button>
-                        </div>
-                        {selectedProducts.size > 0 && (
-                            <button onClick={handleStartSale} className="flex items-center bg-green-500 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition-colors">
-                                <ShoppingCart size={20} className="mr-2" /> {t('startSale')} ({selectedProducts.size})
-                            </button>
-                        )}
-                        <button onClick={() => openModal('addProduct')} className="flex items-center bg-blue-500 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition-colors"><Plus size={20} className="mr-2" /> {t('addProduct')}</button>
+            {activeTab === 'list' && (
+                <div className="flex justify-end items-center mb-6 flex-wrap gap-4">
+                    <div className="flex items-center gap-2">
+                        <button onClick={() => setViewMode('list')} className={`p-2 rounded-lg ${viewMode === 'list' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-600'}`}><List/></button>
+                        <button onClick={() => setViewMode('grid')} className={`p-2 rounded-lg ${viewMode === 'grid' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-600'}`}><LayoutGrid/></button>
                     </div>
-                 )}
-            </div>
+                    {selectedProducts.size > 0 && (
+                        <button onClick={handleStartSale} className="flex items-center bg-green-500 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition-colors">
+                            <ShoppingCart size={20} className="mr-2" /> {t('startSale')} ({selectedProducts.size})
+                        </button>
+                    )}
+                    <button onClick={() => openModal('addProduct')} className="flex items-center bg-blue-500 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition-colors"><Plus size={20} className="mr-2" /> {t('addProduct')}</button>
+                </div>
+            )}
 
             <div className="flex border-b mb-6">
                 <button onClick={() => setActiveTab('list')} className={`px-4 py-2 text-sm font-semibold flex items-center gap-2 ${activeTab === 'list' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500'}`}><List size={16}/> {t('productList')}</button>
@@ -1081,16 +1082,11 @@ const CustomerDetailsView = React.memo(({ customerId, customers, db, appId, navi
     
     return (
         <div className="bg-white p-4 sm:p-8 rounded-2xl shadow-md">
-            <div className="flex justify-between items-start mb-4 flex-wrap gap-4">
-                <div>
-                    <button onClick={() => navigate('customers')} className="flex items-center text-blue-600 hover:underline mb-4"><ArrowLeft size={18} className="mr-2" /> {t('backToList')}</button>
-                    <h2 className="text-3xl font-bold text-gray-800">{customer.name} {customer.nickname && `(${customer.nickname})`}</h2>
-                    <p className="text-gray-500">{customer.phone}</p>
-                    <p className="text-gray-500">{customer.address}</p>
-                </div>
-                <button onClick={() => openSaleModal(customer)} className="flex items-center bg-blue-500 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition-colors">
-                    <ShoppingCart size={20} className="mr-2"/> {t('newSale')}
-                </button>
+            <div className="mb-4">
+                <button onClick={() => navigate('customers')} className="flex items-center text-blue-600 hover:underline mb-4"><ArrowLeft size={18} className="mr-2" /> {t('backToList')}</button>
+                <h2 className="text-3xl font-bold text-gray-800">{customer.name} {customer.nickname && `(${customer.nickname})`}</h2>
+                <p className="text-gray-500">{customer.phone}</p>
+                <p className="text-gray-500">{customer.address}</p>
             </div>
 
             {customer.phone && (
@@ -1151,8 +1147,7 @@ const SalesView = React.memo(({ sales, handleShowInvoice, t, language }) => {
 
     return (
         <div className="bg-white p-4 sm:p-8 rounded-2xl shadow-md">
-            <div className="flex justify-between items-center mb-6">
-                <h2 className="text-3xl font-bold text-gray-800">{t('sales')}</h2>
+            <div className="flex justify-end items-center mb-6">
                 <button onClick={() => setShowFilters(!showFilters)} className="flex items-center text-sm font-semibold text-blue-600 hover:text-blue-800"><Filter size={16} className="mr-1" /> {showFilters ? t('hide') : t('filter')}</button>
             </div>
             {showFilters && (<div className="bg-gray-50 p-6 rounded-2xl shadow-inner mb-6 border">
@@ -1193,7 +1188,6 @@ const DebtsView = React.memo(({ sales, openModal, t, language }) => {
     const debtSales = useMemo(() => sales.filter(s => s.status === SALE_STATUS.CREDIT), [sales]);
     return (
         <div className="bg-white p-4 sm:p-8 rounded-2xl shadow-md">
-             <h2 className="text-3xl font-bold text-gray-800 mb-6">{t('debts')}</h2>
              <div className="overflow-x-auto"><table className="w-full text-left">
                 <thead><tr className="border-b">
                     <th className="p-3">{t('invoiceNo')}</th><th className="p-3">{t('customers')}</th><th className="p-3">{t('amountDue')}</th><th className="p-3 hidden md:table-cell">{t('date')}</th><th className="p-3 text-right">{t('actions')}</th>
@@ -1216,7 +1210,6 @@ const RefundsView = React.memo(({ payments, t, language }) => {
     const sortedPayments = useMemo(() => [...payments].sort((a,b) => new Date(b.paymentDate) - new Date(a.paymentDate)), [payments]);
     return (
         <div className="bg-white p-4 sm:p-8 rounded-2xl shadow-md">
-             <h2 className="text-3xl font-bold text-gray-800 mb-6">{t('refundHistory')}</h2>
              <div className="overflow-x-auto"><table className="w-full text-left">
                 <thead><tr className="border-b"><th className="p-3">{t('date')}</th><th className="p-3">{t('customers')}</th><th className="p-3">{t('amount')}</th><th className="p-3 hidden sm:table-cell">{t('method')}</th><th className="p-3">{t('invoiceRef')}</th></tr></thead>
                 <tbody>{sortedPayments.map((item, index) => (<tr key={item.id || index} className="border-b hover:bg-gray-50">
@@ -1234,7 +1227,6 @@ const RefundsView = React.memo(({ payments, t, language }) => {
 const SettingsView = React.memo(({ companyProfile, handleSaveProfile, t }) => {
     return (
         <div className="bg-white p-4 sm:p-8 rounded-2xl shadow-md max-w-2xl mx-auto">
-            <h2 className="text-3xl font-bold text-gray-800 mb-6">{t('settings')}</h2>
             <CompanyProfileForm initialData={companyProfile} onSubmit={handleSaveProfile} t={t} />
         </div>
     );
