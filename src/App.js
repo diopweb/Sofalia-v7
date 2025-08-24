@@ -59,6 +59,7 @@ const translations = {
         makeAPayment: "Faire un Paiement", remainingBalance: "Solde Restant:", available: "Disponible:", savePayment: "Enregistrer Paiement",
         selectProducts: "Sélectionner des produits", search: "Rechercher...", viewCart: "Voir le Panier",
         manageStock: "Gérer le stock", addToCart: "Ajouter au panier", appeler: "Appeler", sms: "SMS",
+        salesComparison: "Comparaison des Ventes (Hier / Aujourd'hui)", yesterday: "Hier",
     },
     en: {
         dashboard: "Dashboard", products: "Products", categories: "Categories", customers: "Customers", sales: "Sales",
@@ -97,6 +98,7 @@ const translations = {
         makeAPayment: "Make a Payment", remainingBalance: "Remaining Balance:", available: "Available:", savePayment: "Save Payment",
         selectProducts: "Select products", search: "Search...", viewCart: "View Cart",
         manageStock: "Manage Stock", addToCart: "Add to Cart", appeler: "Call", sms: "SMS",
+        salesComparison: "Sales Comparison (Yesterday / Today)", yesterday: "Yesterday",
     }
 };
 
@@ -306,7 +308,7 @@ export default function App() {
         });
     }, []);
     
-    // --- Authentication & PDF Script Loading ---
+    // --- Authentication & Script Loading ---
     useEffect(() => {
         const unsubscribeAuth = onAuthStateChanged(auth, async (authUser) => {
             if (authUser) { setUser(authUser); setIsAuthReady(true); } 
@@ -322,7 +324,7 @@ export default function App() {
         Promise.all([
             loadScript("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"),
             loadScript("https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js")
-        ]).catch(error => console.error("Error loading PDF scripts:", error));
+        ]).catch(error => console.error("Error loading scripts:", error));
         return () => unsubscribeAuth();
     }, []);
 
@@ -1166,7 +1168,7 @@ const SalesView = React.memo(({ sales, handleShowInvoice, t, language }) => {
                     </div>
                 </div>
             </div>)}
-            {filteredSales.length > 0 && <p className="mb-4 text-lg font-bold">{t('totalDisplayed')}: {formatCurrency(subtotal, language)}</p>}
+            {filteredSales.length > 0 && <p className="mb-4 text-xl font-bold text-center bg-blue-500 text-white p-4 rounded-lg">{t('totalDisplayed')}: {formatCurrency(subtotal, language)}</p>}
             <div className="overflow-x-auto"><table className="w-full text-left">
                 <thead><tr className="border-b"><th className="p-3">{t('invoiceNo')}</th><th className="p-3 hidden sm:table-cell">{t('products')}</th><th className="p-3">{t('customers')}</th><th className="p-3">{t('total')}</th><th className="p-3 hidden md:table-cell">{t('date')}</th><th className="p-3">Status</th><th className="p-3 text-right">{t('actions')}</th></tr></thead>
                 <tbody>{filteredSales.map(sale => (
